@@ -46,12 +46,12 @@ if opcion == "Recaudo":
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         #st.dataframe(df_liqui)
         df1 = len(df_liqui)
-        st.write(df1)
+        #st.write(df1)
 
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
         #st.dataframe(df_ordenes)
         df2 = len(df_ordenes)
-        st.write(df2)
+        #st.write(df2)
 
         if df1 == df2:
             # Cruzar los datos por "Documento" y "NUMERO_ORDEN"
@@ -64,6 +64,8 @@ if opcion == "Recaudo":
             # Descargar resultado
             xlsx = generar_xlsx(df_merged)
             st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        else:
+            st.write("Las bases de datos cargadas no tienen la misma cantidad de registros, por favor validar antes de cargar")
 
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
