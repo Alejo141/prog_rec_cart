@@ -84,6 +84,8 @@ if opcion == "Recaudo":
         # Validar cantidad de registros antes del cruce
         df1, df2, df3, df4 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo)
 
+        st.dataframe(df_siigo)
+
         if df1 == df2:
             # Cruzar los datos por "DOCUMENTO" y "NUMERO_ORDEN"
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
