@@ -31,7 +31,6 @@ if opcion == "Recaudo":
     st.subheader("📄 Procesamiento de Recaudo")
 
     archivo_liquidacion = st.file_uploader("📂 Cargar archivo Excel", type=["xlsx"])
-    archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel", type=["xlsx"])
 
     if archivo_liquidacion is not None:
         df = pd.read_excel(archivo_liquidacion)
@@ -65,6 +64,9 @@ if opcion == "Recaudo":
 
         csv = generar_csv(df_filtrado)
         st.download_button(label="📥 Descargar CSV", data=csv, file_name="facturacion_procesada.csv", mime="text/csv")
+
+    ####################################################
+    archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel", type=["xlsx"])
     
     if archivo_ordenes is not None:
         df = pd.read_excel(archivo_ordenes)
