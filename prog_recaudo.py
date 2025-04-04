@@ -101,6 +101,10 @@ if opcion == "Recaudo":
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
+                sum_recaudo = df_total["CC"].sum()
+
+                st.success(sum_recaudo)
+
                 # Descargar resultado
                 xlsx = generar_xlsx(df_total)
                 st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx",
