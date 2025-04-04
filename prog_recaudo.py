@@ -91,12 +91,12 @@ if opcion == "Recaudo":
         xlsx = generar_xlsx(df_filtrado)
         st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key="descarga_ordenes")
     
-    if columnas_deseadas_liqui is not None and "NUMERO_ORDEN" in columnas_deseadas_liqui:
-        for i in columnas_deseadas_liqui["NUMERO_ORDEN"]:
-            print(i)
-        else:
-            print("Error: La variable está vacía o no tiene la columna esperada.")
-            
+    
+    for i in columnas_deseadas_liqui["NUMERO_ORDEN"]:
+        print(i)
+    else:
+        print("Error: La variable está vacía o no tiene la columna esperada.")
+
     #for i in columnas_deseadas_liqui["NUMERO_ORDEN"]:
     #    for j in columnas_deseadas_orde["Documento"]:
     #        if "Documento" == "NUMERO_ORDEN":
