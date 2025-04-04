@@ -39,17 +39,19 @@ if opcion == "Recaudo":
     with col2:
         archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel - Órdenes", type=["xlsx"])
     with col3:
-        archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
+        archivo_provision = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
 
 
     if archivo_liquidacion and archivo_ordenes:
         # Cargar los datos
         df_liqui = pd.read_excel(archivo_liquidacion)
         df_ordenes = pd.read_excel(archivo_ordenes)
+        df_provision = pd.read_excel(archivo_provision)
 
         # Seleccionar columnas necesarias
         columnas_liqui = ["Documento", "Código Proyecto", "Fecha", "Forma de Pago", "Código Punto de Servicio", "Valor Movilizado", "Valor Comisión", "IVA", "Total Liquidación", "ano"]
         columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
+        columnas_ordenes = ["NUI", "CC", "PROYECTO"]
 
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         #st.dataframe(df_liqui)
@@ -61,6 +63,10 @@ if opcion == "Recaudo":
         df2 = len(df_ordenes)
         #st.write(df2)
 
+        df_provision = df_provision[[col for col in columnas_ordenes if col in df_ordenes.columns]]
+        #st.dataframe(df_ordenes)
+        df3 = len(df_provision)
+
         if df1 == df2:
             # Cruzar los datos por "Documento" y "NUMERO_ORDEN"
             df_merged = df_liqui.merge(df_ordenes, left_on="Documento", right_on="NUMERO_ORDEN", how="inner")
@@ -69,8 +75,15 @@ if opcion == "Recaudo":
             st.success("✅ Datos cruzados correctamente.")
             st.dataframe(df_merged)
 
+            # Cruzar los datos por "NUI" y "IDENTIFICACION"
+            df_total = df_merged.merge(df_provision, left_on="NUI", right_on="IDENTIFICACION", how="inner")
+
+            # Mostrar el resultado
+            st.success("✅ Cruce total correcto.")
+            st.dataframe(df_total)
+
             # Descargar resultado
-            xlsx = generar_xlsx(df_merged)
+            xlsx = generar_xlsx(df_total)
             st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         else:
             st.warning("Las bases de datos cargadas no tienen la misma cantidad de registros, por favor validar antes de cargar", icon="⚠️")
