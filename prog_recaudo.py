@@ -4,6 +4,8 @@ from io import BytesIO
 import os
 import unidecode  # type: ignore # Librería para eliminar tildes
 
+st.set_page_config(layout="wide")
+
 # Configuración inicial de la app
 st.set_page_config(page_title="Recaudo y Cartera", page_icon="📊", layout="centered")
 
@@ -30,7 +32,7 @@ def generar_csv(df):
 if opcion == "Recaudo":
     st.subheader("📄 Procesamiento de Recaudo")
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
     # Subir archivos
