@@ -51,7 +51,7 @@ if opcion == "Recaudo":
         # Seleccionar columnas necesarias
         columnas_liqui = ["Documento", "Código Proyecto", "Fecha", "Forma de Pago", "Código Punto de Servicio", "Valor Movilizado", "Valor Comisión", "IVA", "Total Liquidación", "ano"]
         columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
-        columnas_ordenes = ["NUI", "CC", "PROYECTO"]
+        columnas_provision = ["NUI", "CC", "PROYECTO"]
 
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         #st.dataframe(df_liqui)
@@ -63,7 +63,7 @@ if opcion == "Recaudo":
         df2 = len(df_ordenes)
         #st.write(df2)
 
-        df_provision = df_provision[[col for col in columnas_ordenes if col in df_ordenes.columns]]
+        df_provision = df_provision[[col for col in columnas_provision if col in df_provision.columns]]
         #st.dataframe(df_ordenes)
         df3 = len(df_provision)
 
