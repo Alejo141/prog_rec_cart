@@ -88,13 +88,6 @@ if opcion == "Recaudo":
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
-                # Función para generar archivo Excel
-                def generar_xlsx(df):
-                    output = io.BytesIO()
-                    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
-                        df.to_excel(writer, index=False, sheet_name="Datos Cruzados")
-                    return output.getvalue()
-
                 # Descargar resultado
                 xlsx = generar_xlsx(df_total)
                 st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx",
