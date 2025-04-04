@@ -65,7 +65,7 @@ if opcion == "Recaudo":
             xlsx = generar_xlsx(df_merged)
             st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         else:
-            st.write("Las bases de datos cargadas no tienen la misma cantidad de registros, por favor validar antes de cargar")
+            st.warning("Las bases de datos cargadas no tienen la misma cantidad de registros, por favor validar antes de cargar", icon="⚠️")
 
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
