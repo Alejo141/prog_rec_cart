@@ -45,6 +45,7 @@ if opcion == "Recaudo":
 
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         st.dataframe(df_liqui)
+        df1 = df_liqui["Documento"].value_counts()
 
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
         st.dataframe(df_ordenes)
