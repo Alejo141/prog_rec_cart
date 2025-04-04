@@ -64,18 +64,13 @@ if opcion == "Recaudo":
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
         df_provision = df_provision[[col for col in columnas_provision if col in df_provision.columns]]
 
-        # Función para eliminar tildes y caracteres especiales
-        def limpiar_texto(texto):
-            if pd.isna(texto):  # Si el valor es NaN, retornar cadena vacía
-                return ""
-            return unidecode(str(texto)).upper().strip()
-
-        # Aplicar limpieza y concatenar nombres y apellidos en una sola columna
+        # Concatenar nombres y apellidos en una sola columna
         if all(col in df_ordenes.columns for col in ["NOMBRES", "APELLIDO1", "APELLIDO2"]):
-            df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRES"].fillna('').apply(limpiar_texto) + " " + \
-                                            df_ordenes["APELLIDO1"].fillna('').apply(limpiar_texto) + " " + \
-                                            df_ordenes["APELLIDO2"].fillna('').apply(limpiar_texto)
+            df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRES"].fillna('').apply(lambda x: unidecode.unidecode(x)) + " " + \
+                                            df_ordenes["APELLIDO1"].fillna('').apply(lambda x: unidecode.unidecode(x)) + " " + \
+                                            df_ordenes["APELLIDO2"].fillna('').apply(lambda x: unidecode.unidecode(x))
             df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRE_COMPLETO"].str.strip()
+
 
         # Validar cantidad de registros antes del cruce
         df1, df2, df3 = len(df_liqui), len(df_ordenes), len(df_provision)
@@ -95,12 +90,6 @@ if opcion == "Recaudo":
                 st.dataframe(df_total)
 
                 # Descargar resultado
-                def generar_xlsx(df):
-                    output = io.BytesIO()
-                    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
-                        df.to_excel(writer, index=False, sheet_name="Datos Cruzados")
-                    return output.getvalue()
-
                 xlsx = generar_xlsx(df_total)
                 st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx",
                                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
@@ -108,7 +97,6 @@ if opcion == "Recaudo":
                 st.warning("⚠️ No se encontraron las columnas 'IDENTIFICACION' o 'NUI' para realizar el segundo cruce.")
         else:
             st.warning("⚠️ Las bases de datos cargadas no tienen la misma cantidad de registros. Por favor, validar antes de cargar.")
-
 
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
