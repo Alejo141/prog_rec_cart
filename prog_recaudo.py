@@ -75,8 +75,8 @@ if opcion == "Recaudo":
             st.success("✅ Datos cruzados correctamente.")
             st.dataframe(df_merged)
 
-            # Cruzar los datos por "NUI" y "IDENTIFICACION"
-            df_total = df_merged.merge(df_provision, left_on="NUI", right_on="IDENTIFICACION", how="inner")
+            # Cruzar los datos por "IDENTIFICACION" y "NUI"
+            df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
 
             # Mostrar el resultado
             st.success("✅ Cruce total correcto.")
