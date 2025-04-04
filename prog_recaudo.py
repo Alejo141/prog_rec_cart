@@ -39,8 +39,8 @@ if opcion == "Recaudo":
         nombre_archivo = archivo_liquidacion.name  
 
         # Definir las columnas a filtrar
-        columnas_deseadas = ["Código Proyecto", "Fecha", "Forma de Pago", "Código Punto de Servicio", "Documento", "Valor Movilizado", "Valor Comisión", "IVA", "Total Liquidación", "ano"]
-        columnas_presentes = [col for col in columnas_deseadas if col in df.columns]
+        columnas_deseadas_liqui = ["Código Proyecto", "Fecha", "Forma de Pago", "Código Punto de Servicio", "Documento", "Valor Movilizado", "Valor Comisión", "IVA", "Total Liquidación", "ano"]
+        columnas_presentes = [col for col in columnas_deseadas_liqui if col in df.columns]
 
         # Filtrar columnas
         df_filtrado = df[columnas_presentes]
@@ -72,8 +72,8 @@ if opcion == "Recaudo":
         nombre_archivo = archivo_ordenes.name  
 
         # Definir las columnas a filtrar
-        columnas_deseadas = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
-        columnas_presentes = [col for col in columnas_deseadas if col in df.columns]
+        columnas_deseadas_orde = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
+        columnas_presentes = [col for col in columnas_deseadas_orde if col in df.columns]
 
         # Filtrar columnas
         df_filtrado = df[columnas_presentes]
@@ -91,8 +91,8 @@ if opcion == "Recaudo":
         xlsx = generar_xlsx(df_filtrado)
         st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key="descarga_ordenes")
     
-    for i in archivo_ordenes.columnas_deseadas["NUMERO_ORDEN"]:
-        for j in archivo_liquidacion.columnas_deseadas["Documento"]:
+    for i in columnas_deseadas_liqui["NUMERO_ORDEN"]:
+        for j in columnas_deseadas_orde["Documento"]:
             if "Documento" == "NUMERO_ORDEN":
                 print("Se esta ejecutando la condición")
             else:
