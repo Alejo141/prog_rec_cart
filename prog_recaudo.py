@@ -90,9 +90,13 @@ if opcion == "Recaudo":
         # Botones de descarga
         xlsx = generar_xlsx(df_filtrado)
         st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key="descarga_ordenes")
-
-    if "Documento" == "NUMERO_ORDEN":
-        print("Se esta ejecutando la condición")
+    
+    for i in archivo_ordenes.columnas_deseadas["NUMERO_ORDEN"]:
+        for j in archivo_liquidacion.columnas_deseadas["Documento"]:
+            if "Documento" == "NUMERO_ORDEN":
+                print("Se esta ejecutando la condición")
+            else:
+                print("No se ejecuta el if")
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
 # ------------------- SECCIÓN DE CARTERA -------------------
