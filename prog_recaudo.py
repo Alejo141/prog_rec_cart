@@ -44,7 +44,14 @@ if opcion == "Recaudo":
         columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
 
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
+        # Filtrar columnas
+        df_filtrado = df_liqui[df_liqui]
+
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
+        # Filtrar columnas
+        df_filtrado = df_ordenes[df_ordenes]
+
+        
 
         # Cruzar los datos por "Documento" y "NUMERO_ORDEN"
         df_merged = df_liqui.merge(df_ordenes, left_on="Documento", right_on="NUMERO_ORDEN", how="inner")
