@@ -30,9 +30,13 @@ def generar_csv(df):
 if opcion == "Recaudo":
     st.subheader("📄 Procesamiento de Recaudo")
 
+    col1, col2 = st.columns(2)
+
+    with col1:
     # Subir archivos
-    archivo_liquidacion = st.file_uploader("📂 Cargar archivo Excel Liquidación", type=["xlsx"])
-    archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel Órdenes", type=["xlsx"])
+        archivo_liquidacion = st.file_uploader("📂 Cargar archivo Excel Liquidación", type=["xlsx"])
+    with col2:
+        archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel Órdenes", type=["xlsx"])
 
     if archivo_liquidacion and archivo_ordenes:
         # Cargar los datos
