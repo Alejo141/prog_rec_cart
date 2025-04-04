@@ -71,7 +71,6 @@ if opcion == "Recaudo":
                                             df_ordenes["APELLIDO2"].fillna('').apply(lambda x: unidecode.unidecode(x))
             df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRE_COMPLETO"].str.strip()
 
-
         # Validar cantidad de registros antes del cruce
         df1, df2, df3 = len(df_liqui), len(df_ordenes), len(df_provision)
 
@@ -80,7 +79,8 @@ if opcion == "Recaudo":
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
 
             st.success("✅ Datos cruzados correctamente.")
-            st.dataframe(df_merged)
+            #st.dataframe(df_merged)
+            df_merged = df_merged.drop(columns=["NOMBRES", "APELLIDO1", "APELLIDO2"]).reset_index(drop=True)
 
             # Verificar si las claves de cruce existen antes de la segunda fusión
             if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
