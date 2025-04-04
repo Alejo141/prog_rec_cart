@@ -30,7 +30,7 @@ def generar_csv(df):
 if opcion == "Recaudo":
     st.subheader("📄 Procesamiento de Recaudo")
 
-    # Columnas para organizar los inputs
+    # Columnas para cargar archivos
     col1, col2, col3 = st.columns(3)
 
     # Subir archivos
@@ -42,60 +42,67 @@ if opcion == "Recaudo":
         archivo_provision = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
 
     if archivo_liquidacion and archivo_ordenes and archivo_provision:
-        # Cargar los datos
+        # Cargar los datos en DataFrames
         df_liqui = pd.read_excel(archivo_liquidacion)
         df_ordenes = pd.read_excel(archivo_ordenes)
         df_provision = pd.read_excel(archivo_provision)
 
-        # Definir las columnas esperadas
-        columnas_liqui = ["Documento", "Código Proyecto", "Fecha", "Forma de Pago", 
-                        "Código Punto de Servicio", "Valor Movilizado", "Valor Comisión", 
-                        "IVA", "Total Liquidación", "ano"]
-        columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", 
-                            "APELLIDO2", "FACTURA"]
+        # Normalizar nombres de columnas eliminando espacios adicionales
+        df_liqui.columns = df_liqui.columns.str.strip().str.upper()
+        df_ordenes.columns = df_ordenes.columns.str.strip().str.upper()
+        df_provision.columns = df_provision.columns.str.strip().str.upper()
+
+        # Seleccionar columnas necesarias
+        columnas_liqui = ["DOCUMENTO", "CÓDIGO PROYECTO", "FECHA", "FORMA DE PAGO", 
+                        "CÓDIGO PUNTO DE SERVICIO", "VALOR MOVILIZADO", "VALOR COMISIÓN", 
+                        "IVA", "TOTAL LIQUIDACIÓN", "ANO"]
+        columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
         columnas_provision = ["NUI", "CC", "PROYECTO"]
 
-        # Filtrar solo las columnas que existen en los DataFrames
+        # Filtrar DataFrames con las columnas disponibles
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
         df_provision = df_provision[[col for col in columnas_provision if col in df_provision.columns]]
 
-        # Mostrar tamaños de las bases
+        # Concatenar nombres y apellidos en una sola columna
+        if all(col in df_ordenes.columns for col in ["NOMBRES", "APELLIDO1", "APELLIDO2"]):
+            df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRES"].fillna('') + " " + \
+                                            df_ordenes["APELLIDO1"].fillna('') + " " + \
+                                            df_ordenes["APELLIDO2"].fillna('')
+            df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRE_COMPLETO"].str.strip()
+
+        # Validar cantidad de registros antes del cruce
         df1, df2, df3 = len(df_liqui), len(df_ordenes), len(df_provision)
 
         if df1 == df2:
-            # Estandarizar nombres de columnas (eliminar espacios en blanco)
-            df_liqui.columns = df_liqui.columns.str.strip().str.upper()
-            df_ordenes.columns = df_ordenes.columns.str.strip().str.upper()
-            df_provision.columns = df_provision.columns.str.strip().str.upper()
-
-            # Mostrar nombres de columnas para depuración
-            #st.write("Columnas en df_liqui:", df_liqui.columns.tolist())
-            #st.write("Columnas en df_ordenes:", df_ordenes.columns.tolist())
-            #st.write("Columnas en df_provision:", df_provision.columns.tolist())
-
             # Cruzar los datos por "DOCUMENTO" y "NUMERO_ORDEN"
-            if "DOCUMENTO" in df_liqui.columns and "NUMERO_ORDEN" in df_ordenes.columns:
-                df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
-                st.success("✅ Datos cruzados correctamente entre Liquidación y Órdenes.")
-                #st.dataframe(df_merged)
+            df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
 
-                # Cruzar con Provisión por "IDENTIFICACION" y "NUI"
-                if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
-                    df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
-                    st.success("✅ Cruce total correcto con Provisión.")
-                    st.dataframe(df_total)
+            st.success("✅ Datos cruzados correctamente.")
+            st.dataframe(df_merged)
 
-                    # Descargar resultado
-                    xlsx = generar_xlsx(df_total)
-                    st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx", 
-                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                else:
-                    st.error("❌ No se encontraron las columnas 'IDENTIFICACION' o 'NUI'. Verifique los archivos.")
+            # Verificar si las claves de cruce existen antes de la segunda fusión
+            if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
+                df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
+
+                st.success("✅ Cruce total correcto.")
+                st.dataframe(df_total)
+
+                # Función para generar archivo Excel
+                def generar_xlsx(df):
+                    output = io.BytesIO()
+                    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
+                        df.to_excel(writer, index=False, sheet_name="Datos Cruzados")
+                    return output.getvalue()
+
+                # Descargar resultado
+                xlsx = generar_xlsx(df_total)
+                st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx",
+                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             else:
-                st.error("❌ No se encontraron las columnas 'DOCUMENTO' o 'NUMERO_ORDEN'. Verifique los archivos.")
+                st.warning("⚠️ No se encontraron las columnas 'IDENTIFICACION' o 'NUI' para realizar el segundo cruce.")
         else:
-            st.warning("⚠️ Las bases de datos cargadas no tienen la misma cantidad de registros. Revise antes de continuar.")
+            st.warning("⚠️ Las bases de datos cargadas no tienen la misma cantidad de registros. Por favor, validar antes de cargar.")
 
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
