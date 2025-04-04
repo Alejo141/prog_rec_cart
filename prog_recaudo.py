@@ -53,16 +53,17 @@ if opcion == "Recaudo":
         df2 = len(df_ordenes)
         st.write(df2)
 
-        # Cruzar los datos por "Documento" y "NUMERO_ORDEN"
-        df_merged = df_liqui.merge(df_ordenes, left_on="Documento", right_on="NUMERO_ORDEN", how="inner")
+        if df1 == df2:
+            # Cruzar los datos por "Documento" y "NUMERO_ORDEN"
+            df_merged = df_liqui.merge(df_ordenes, left_on="Documento", right_on="NUMERO_ORDEN", how="inner")
 
-        # Mostrar el resultado
-        st.success("✅ Datos cruzados correctamente.")
-        st.dataframe(df_merged)
+            # Mostrar el resultado
+            st.success("✅ Datos cruzados correctamente.")
+            st.dataframe(df_merged)
 
-        # Descargar resultado
-        xlsx = generar_xlsx(df_merged)
-        st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            # Descargar resultado
+            xlsx = generar_xlsx(df_merged)
+            st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
