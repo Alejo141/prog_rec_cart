@@ -91,7 +91,8 @@ if opcion == "Recaudo":
         xlsx = generar_xlsx(df_filtrado)
         st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key="descarga_ordenes")
 
-
+    if "Documento" == "NUMERO_ORDEN":
+        print("Se esta ejecutando la condición")
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
 # ------------------- SECCIÓN DE CARTERA -------------------
