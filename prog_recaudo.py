@@ -4,10 +4,8 @@ from io import BytesIO
 import os
 import unidecode  # type: ignore # Librería para eliminar tildes
 
-st.set_page_config(layout="wide")
-
 # Configuración inicial de la app
-st.set_page_config(page_title="Recaudo y Cartera", page_icon="📊", layout="centered")
+st.set_page_config(page_title="Recaudo y Cartera", page_icon="📊", layout="wide")
 
 # Título principal
 st.title("📊 Captura de Datos")
