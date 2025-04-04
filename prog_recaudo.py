@@ -53,7 +53,7 @@ if opcion == "Recaudo":
 
         # Limpieza de datos
         if "Fecha" in df_filtrado.columns:
-            df_filtrado["Fecha"] = pd.to_datetime(df_filtrado["Fecha"], errors='coerce').dt.strftime('%Y-%m-%d').fillna("NA")
+            df_filtrado["Fecha"] = pd.to_datetime(df_filtrado["Fecha"], errors='coerce').dt.strftime('%d-%m-%Y').fillna("NA")
 
         st.success("✅ Archivo procesado correctamente.")
         st.dataframe(df_filtrado)
