@@ -70,15 +70,15 @@ if opcion == "Recaudo":
             df_provision.columns = df_provision.columns.str.strip().str.upper()
 
             # Mostrar nombres de columnas para depuración
-            st.write("Columnas en df_liqui:", df_liqui.columns.tolist())
-            st.write("Columnas en df_ordenes:", df_ordenes.columns.tolist())
-            st.write("Columnas en df_provision:", df_provision.columns.tolist())
+            #st.write("Columnas en df_liqui:", df_liqui.columns.tolist())
+            #st.write("Columnas en df_ordenes:", df_ordenes.columns.tolist())
+            #st.write("Columnas en df_provision:", df_provision.columns.tolist())
 
             # Cruzar los datos por "DOCUMENTO" y "NUMERO_ORDEN"
             if "DOCUMENTO" in df_liqui.columns and "NUMERO_ORDEN" in df_ordenes.columns:
                 df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
                 st.success("✅ Datos cruzados correctamente entre Liquidación y Órdenes.")
-                st.dataframe(df_merged)
+                #st.dataframe(df_merged)
 
                 # Cruzar con Provisión por "IDENTIFICACION" y "NUI"
                 if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
