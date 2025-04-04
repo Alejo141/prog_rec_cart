@@ -31,7 +31,7 @@ if opcion == "Recaudo":
     st.subheader("📄 Procesamiento de Recaudo")
 
     # Columnas para cargar archivos
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     # Subir archivos
     with col1:
@@ -40,17 +40,21 @@ if opcion == "Recaudo":
         archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel - Órdenes", type=["xlsx"])
     with col3:
         archivo_provision = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
+    with col4:
+        archivo_siigo = st.file_uploader("📂 Cargar archivo Excel - Siigo", type=["xlsx"])
 
     if archivo_liquidacion and archivo_ordenes and archivo_provision:
         # Cargar los datos en DataFrames
         df_liqui = pd.read_excel(archivo_liquidacion)
         df_ordenes = pd.read_excel(archivo_ordenes)
         df_provision = pd.read_excel(archivo_provision)
+        df_siigo = pd.read_excel(archivo_siigo)
 
         # Normalizar nombres de columnas eliminando espacios adicionales
         df_liqui.columns = df_liqui.columns.str.strip().str.upper()
         df_ordenes.columns = df_ordenes.columns.str.strip().str.upper()
         df_provision.columns = df_provision.columns.str.strip().str.upper()
+        df_siigo.columns = df_siigo.columns.str.strip().str.upper()
 
         # Seleccionar columnas necesarias
         columnas_liqui = ["DOCUMENTO", "CÓDIGO PROYECTO", "FECHA", "FORMA DE PAGO", 
@@ -58,11 +62,14 @@ if opcion == "Recaudo":
                         "IVA", "TOTAL LIQUIDACIÓN", "ANO"]
         columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
         columnas_provision = ["NUI", "CC", "PROYECTO"]
+        columnas_siigo = ["CÓDIGO CONTABLE", "CUENTA CONTABLE", "COMPROBANTE", "SECUENCIA", "FECHA ELABORACIÓN", "IDENTIFICACIÓN", "NOMBRE DEL TERCERO", "DESCRIPCIÓN",
+                        "CENTRO DE COSTO", "DÉBITO"]
 
         # Filtrar DataFrames con las columnas disponibles
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
         df_provision = df_provision[[col for col in columnas_provision if col in df_provision.columns]]
+        df_siigo = df_siigo[[col for col in columnas_siigo if col in df_siigo.columns]]
 
         # Concatenar nombres y apellidos en una sola columna
         if all(col in df_ordenes.columns for col in ["NOMBRES", "APELLIDO1", "APELLIDO2"]):
@@ -72,7 +79,7 @@ if opcion == "Recaudo":
             df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRE_COMPLETO"].str.strip()
 
         # Validar cantidad de registros antes del cruce
-        df1, df2, df3 = len(df_liqui), len(df_ordenes), len(df_provision)
+        df1, df2, df3, df4 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo)
 
         if df1 == df2:
             # Cruzar los datos por "DOCUMENTO" y "NUMERO_ORDEN"
