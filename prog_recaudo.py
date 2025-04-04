@@ -60,10 +60,7 @@ if opcion == "Recaudo":
 
         # Botones de descarga
         xlsx = generar_xlsx(df_filtrado)
-        st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-        csv = generar_csv(df_filtrado)
-        st.download_button(label="📥 Descargar CSV", data=csv, file_name="facturacion_procesada.csv", mime="text/csv")
+        st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key="descarga_liquidacion")
 
     ####################################################
     archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel Ordenes", type=["xlsx"], key="archivo_ordenes")
@@ -92,10 +89,8 @@ if opcion == "Recaudo":
 
         # Botones de descarga
         xlsx = generar_xlsx(df_filtrado)
-        st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="facturacion_procesada.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key="descarga_ordenes")
 
-        csv = generar_csv(df_filtrado)
-        st.download_button(label="📥 Descargar CSV", data=csv, file_name="facturacion_procesada.csv", mime="text/csv")
 
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
