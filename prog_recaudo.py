@@ -154,7 +154,7 @@ if opcion == "Recaudo":
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
                 resultado_1 = no_en_sum_siigo[['CC', 'VALOR MOVILIZADO']]
-                #st.dataframe(no_en_sum_siigo)
+                st.dataframe(resultado_1)
 
 ###############################################################################################################################################
 
@@ -176,7 +176,7 @@ if opcion == "Recaudo":
                 #Resultado o diferencias
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
                 resultado_2 = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
-                #st.dataframe(resultado)
+                st.dataframe(resultado_2)
 
 
                 # Descargar resultado con dos hojas
