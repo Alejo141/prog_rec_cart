@@ -106,9 +106,27 @@ if opcion == "Recaudo":
                 # Establecer localización en español según el sistema operativo
                 sistema = platform.system()
                 try:
-                    locale.setlocale(locale.LC_TIME, 'Spanish_Spain.1252')
+                    if sistema == "Windows":
+                        locale.setlocale(locale.LC_TIME, 'Spanish_Spain.1252')
                 except locale.Error:
                     st.warning("⚠️ No se pudo establecer la localización en español. El nombre del mes podría mostrarse en inglés.")
+
+                # 📅 Separar FECHA en AÑO y MES (en español)
+                # Crear diccionario de meses en español (en mayúsculas)
+                meses_es = {
+                    'JANUARY': 'ENERO',
+                    'FEBRUARY': 'FEBRERO',
+                    'MARCH': 'MARZO',
+                    'APRIL': 'ABRIL',
+                    'MAY': 'MAYO',
+                    'JUNE': 'JUNIO',
+                    'JULY': 'JULIO',
+                    'AUGUST': 'AGOSTO',
+                    'SEPTEMBER': 'SEPTIEMBRE',
+                    'OCTOBER': 'OCTUBRE',
+                    'NOVEMBER': 'NOVIEMBRE',
+                    'DECEMBER': 'DICIEMBRE'
+                }
                 
                 # AÑADIDO: Separar FECHA en columnas AÑO y MES (en español y mayúscula)
                 df_total['FECHA'] = pd.to_datetime(df_total['FECHA'], errors='coerce')
