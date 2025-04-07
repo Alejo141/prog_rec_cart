@@ -61,12 +61,15 @@ if opcion == "Recaudo":
         df_ordenes = pd.read_excel(archivo_ordenes)
         df_provision = pd.read_excel(archivo_provision)
         df_siigo = pd.read_excel(archivo_siigo)
+        df_acumulado = pd.read_excel(archivo_acumulado)
 
         # Normalizar nombres de columnas
         df_liqui.columns = df_liqui.columns.str.strip().str.upper()
         df_ordenes.columns = df_ordenes.columns.str.strip().str.upper()
         df_provision.columns = df_provision.columns.str.strip().str.upper()
         df_siigo.columns = df_siigo.columns.str.strip().str.upper()
+        df_acumulado.columns = df_acumulado.columns.str.strip().str.upper()
+
 
         columnas_liqui = ["DOCUMENTO", "CÓDIGO PROYECTO", "FECHA", "FORMA DE PAGO", 
                           "CÓDIGO PUNTO DE SERVICIO", "VALOR MOVILIZADO", "VALOR COMISIÓN", 
@@ -75,11 +78,14 @@ if opcion == "Recaudo":
         columnas_provision = ["NUI", "CC", "PROYECTO"]
         columnas_siigo = ["CÓDIGO CONTABLE", "CUENTA CONTABLE", "COMPROBANTE", "SECUENCIA", "FECHA ELABORACIÓN", 
                           "IDENTIFICACIÓN", "NOMBRE DEL TERCERO", "DESCRIPCIÓN", "CENTRO DE COSTO", "DÉBITO"]
+        columnas_acumulado = ["MEDIO DE PAGO","MEDIO DE RECAUDO","FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "ORDEN DE SERVICIO", "VALOR MOVILIZADO","VALOR COMISIÓN",
+                              "IVA", "TOTAL LIQUIDACIÓN", "NUI", "CEDULA", "NOMBRE", "FACTURA", "MUNICIPIO","VALIDADO","COMPROBANTE CONTABLE"]
 
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
         df_provision = df_provision[[col for col in columnas_provision if col in df_provision.columns]]
         df_siigo = df_siigo[[col for col in columnas_siigo if col in df_siigo.columns]]
+        df_acumulado = df_acumulado[[col for col in columnas_acumulado if col in df_acumulado.columns]]
 
         if all(col in df_ordenes.columns for col in ["NOMBRES", "APELLIDO1", "APELLIDO2"]):
             df_ordenes["NOMBRE_COMPLETO"] = (
