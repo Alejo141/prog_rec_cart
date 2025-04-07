@@ -161,6 +161,11 @@ if opcion == "Recaudo":
                 st.dataframe(df_para_agregar)
 
 
+                # Asegurar que ambos DataFrames tengan el mismo número de columnas
+                min_cols = min(df_acumulado.shape[1], df_para_agregar.shape[1])
+                df_acumulado = df_acumulado.iloc[:, :min_cols]
+                df_para_agregar = df_para_agregar.iloc[:, :min_cols]
+
                 df_unido = pd.concat([df_acumulado, df_para_agregar], axis=0, ignore_index=True)
                 st.dataframe(df_unido)
 
