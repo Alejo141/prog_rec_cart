@@ -148,14 +148,15 @@ if opcion == "Recaudo":
                 solo_df1["DIFERENCIA_EFECTY_SIIGO"] = solo_df1["VALOR MOVILIZADO"] - solo_df1["DÉBITO"]
                 solo_df1["DIFERENCIA_SIIGO_EFECTY"] = solo_df1["DÉBITO"] - solo_df1["VALOR MOVILIZADO"]
 
-                st.dataframe(solo_df1)
-
-###############################################################################################################################################
-                st.subheader("Diferencias Siigo vs Efecty")
+                st.dataframe(solo_df1)           
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
                 st.dataframe(no_en_sum_siigo)
+
+###############################################################################################################################################
+
+                st.subheader("Diferencias Siigo vs Efecty")
 
                 # Merge usando columnas diferentes
                 solo_df2 = sum_siigo.merge(
