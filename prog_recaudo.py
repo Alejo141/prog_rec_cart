@@ -106,10 +106,7 @@ if opcion == "Recaudo":
                 # Establecer localización en español según el sistema operativo
                 sistema = platform.system()
                 try:
-                    if sistema == "Windows":
-                        locale.setlocale(locale.LC_TIME, 'Spanish_Spain.1252')
-                    else:
-                        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+                    locale.setlocale(locale.LC_TIME, 'Spanish_Spain.1252')
                 except locale.Error:
                     st.warning("⚠️ No se pudo establecer la localización en español. El nombre del mes podría mostrarse en inglés.")
                 
