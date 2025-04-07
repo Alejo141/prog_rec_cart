@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 import os
-import unidecode  # type: ignore # Librería para eliminar tildes
+import unidecode  # type: ignore
 
 # Configuración inicial de la app
 st.set_page_config(page_title="Recaudo y Cartera", page_icon="📊", layout="wide")
@@ -14,9 +14,11 @@ st.title("📊 Captura de Datos")
 opcion = st.sidebar.selectbox("Selecciona una opción:", ["Inicio", "Recaudo", "Cartera"])
 
 # ------------------- FUNCIONES GENERALES -------------------
-def generar_xlsx(df):
+def generar_xlsx(df1, df2):
     output = BytesIO()
-    df.to_excel(output, index=False, engine='openpyxl')
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df1.to_excel(writer, sheet_name='Datos_Cruzados', index=False)
+        df2.to_excel(writer, sheet_name='Resumen_Recaudo', index=False)
     output.seek(0)
     return output
 
@@ -33,14 +35,13 @@ if opcion == "Recaudo":
     # Columnas para cargar archivos
     col1, col2 = st.columns(2)
 
-    # Subir archivos
     with col1:
         archivo_liquidacion = st.file_uploader("📂 Cargar archivo Excel - Liquidación", type=["xlsx"])
     with col2:
         archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel - Órdenes", type=["xlsx"])
-    
+
     col3, col4 = st.columns(2)
-    
+
     with col3:
         archivo_provision = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
     with col4:
@@ -53,70 +54,66 @@ if opcion == "Recaudo":
         df_provision = pd.read_excel(archivo_provision)
         df_siigo = pd.read_excel(archivo_siigo)
 
-        # Normalizar nombres de columnas eliminando espacios adicionales
+        # Normalizar nombres de columnas
         df_liqui.columns = df_liqui.columns.str.strip().str.upper()
         df_ordenes.columns = df_ordenes.columns.str.strip().str.upper()
         df_provision.columns = df_provision.columns.str.strip().str.upper()
         df_siigo.columns = df_siigo.columns.str.strip().str.upper()
 
-        # Seleccionar columnas necesarias
         columnas_liqui = ["DOCUMENTO", "CÓDIGO PROYECTO", "FECHA", "FORMA DE PAGO", 
-                        "CÓDIGO PUNTO DE SERVICIO", "VALOR MOVILIZADO", "VALOR COMISIÓN", 
-                        "IVA", "TOTAL LIQUIDACIÓN", "ANO"]
+                          "CÓDIGO PUNTO DE SERVICIO", "VALOR MOVILIZADO", "VALOR COMISIÓN", 
+                          "IVA", "TOTAL LIQUIDACIÓN", "ANO"]
         columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
         columnas_provision = ["NUI", "CC", "PROYECTO"]
-        columnas_siigo = ["CÓDIGO CONTABLE", "CUENTA CONTABLE", "COMPROBANTE", "SECUENCIA", "FECHA ELABORACIÓN", "IDENTIFICACIÓN", "NOMBRE DEL TERCERO", "DESCRIPCIÓN",
-                        "CENTRO DE COSTO", "DÉBITO"]
+        columnas_siigo = ["CÓDIGO CONTABLE", "CUENTA CONTABLE", "COMPROBANTE", "SECUENCIA", "FECHA ELABORACIÓN", 
+                          "IDENTIFICACIÓN", "NOMBRE DEL TERCERO", "DESCRIPCIÓN", "CENTRO DE COSTO", "DÉBITO"]
 
-        # Filtrar DataFrames con las columnas disponibles
         df_liqui = df_liqui[[col for col in columnas_liqui if col in df_liqui.columns]]
         df_ordenes = df_ordenes[[col for col in columnas_ordenes if col in df_ordenes.columns]]
         df_provision = df_provision[[col for col in columnas_provision if col in df_provision.columns]]
         df_siigo = df_siigo[[col for col in columnas_siigo if col in df_siigo.columns]]
 
-        # Concatenar nombres y apellidos en una sola columna
         if all(col in df_ordenes.columns for col in ["NOMBRES", "APELLIDO1", "APELLIDO2"]):
-            df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRES"].fillna('').apply(lambda x: unidecode.unidecode(x)) + " " + \
-                                            df_ordenes["APELLIDO1"].fillna('').apply(lambda x: unidecode.unidecode(x)) + " " + \
-                                            df_ordenes["APELLIDO2"].fillna('').apply(lambda x: unidecode.unidecode(x))
-            df_ordenes["NOMBRE_COMPLETO"] = df_ordenes["NOMBRE_COMPLETO"].str.strip()
+            df_ordenes["NOMBRE_COMPLETO"] = (
+                df_ordenes["NOMBRES"].fillna('').apply(lambda x: unidecode.unidecode(x)) + " " +
+                df_ordenes["APELLIDO1"].fillna('').apply(lambda x: unidecode.unidecode(x)) + " " +
+                df_ordenes["APELLIDO2"].fillna('').apply(lambda x: unidecode.unidecode(x))
+            ).str.strip()
 
-        # Validar cantidad de registros antes del cruce
         df1, df2, df3, df4 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo)
 
         st.dataframe(df_siigo)
 
         if df1 == df2:
-            # Cruzar los datos por "DOCUMENTO" y "NUMERO_ORDEN"
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
 
             st.success("✅ Datos cruzados correctamente.")
-            #st.dataframe(df_merged)
             df_merged = df_merged.drop(columns=["NOMBRES", "APELLIDO1", "APELLIDO2"]).reset_index(drop=True)
 
-            # Verificar si las claves de cruce existen antes de la segunda fusión
             if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
                 df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
 
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
-                # Columnas para cargar archivos
                 col1, col2 = st.columns(2)
-
-                # Subir archivos
                 with col1:
                     sum_recaudo = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
                     st.dataframe(sum_recaudo)
 
-                # Descargar resultado
-                xlsx = generar_xlsx(df_total)
-                st.download_button(label="📥 Descargar Excel", data=xlsx, file_name="datos_cruzados.xlsx",
-                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                # Descargar resultado con dos hojas
+                xlsx = generar_xlsx(df_total, sum_recaudo)
+                st.download_button(
+                    label="📥 Descargar Excel",
+                    data=xlsx,
+                    file_name="datos_cruzados.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
             else:
                 st.warning("⚠️ No se encontraron las columnas 'IDENTIFICACION' o 'NUI' para realizar el segundo cruce.")
         else:
             st.warning("⚠️ Las bases de datos cargadas no tienen la misma cantidad de registros. Por favor, validar antes de cargar.")
+
 
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 
