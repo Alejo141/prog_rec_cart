@@ -14,13 +14,14 @@ st.title("📊 Captura de Datos")
 opcion = st.sidebar.selectbox("Selecciona una opción:", ["Inicio", "Recaudo", "Cartera"])
 
 # ------------------- FUNCIONES GENERALES -------------------
-def generar_xlsx(df1, df2, df3, df4):
+def generar_xlsx(df1, df2, df3, df4, df5):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df1.to_excel(writer, sheet_name='Datos_Cruzados', index=False)
         df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
-        df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=5, index=False)
-        df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=9, index=False)
+        df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=9, index=False)
+        df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=15, index=False)
+        df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=24, index=False)
     output.seek(0)
     return output
 
@@ -116,7 +117,7 @@ if opcion == "Recaudo":
                     total_row = pd.DataFrame([["TOTAL GENERAL", sum_total_val_movil]], columns=["CC", "VALOR MOVILIZADO"])
                     sum_val_movil = pd.concat([sum_val_movil, total_row], ignore_index=True)
                     
-                    st.dataframe(sum_val_movil)
+                    #st.dataframe(sum_val_movil)
 
                 with col2:
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
@@ -126,7 +127,7 @@ if opcion == "Recaudo":
                     total_row_siigo = pd.DataFrame([["TOTAL GENERAL", sum_total_siigo]], columns=["IDENTIFICACION", "DÉBITO"])
                     sum_siigo = pd.concat([sum_siigo, total_row_siigo], ignore_index=True)
                     
-                    st.dataframe(sum_siigo)
+                    #st.dataframe(sum_siigo)
 
 ###############################################################################################################################################
                 
@@ -152,7 +153,8 @@ if opcion == "Recaudo":
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
-                st.dataframe(no_en_sum_siigo)
+                resultado_1 = no_en_sum_siigo[['CC', 'VALOR MOVILIZADO']]
+                #st.dataframe(no_en_sum_siigo)
 
 ###############################################################################################################################################
 
@@ -173,12 +175,12 @@ if opcion == "Recaudo":
 
                 #Resultado o diferencias
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
-                resultado = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
-                st.dataframe(resultado)
+                resultado_2 = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
+                #st.dataframe(resultado)
 
 
                 # Descargar resultado con dos hojas
-                xlsx = generar_xlsx(df_total, sum_val_movil, sum_siigo, resultado)
+                xlsx = generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2)
                 st.download_button(
                     label="📥 Descargar Excel",
                     data=xlsx,
