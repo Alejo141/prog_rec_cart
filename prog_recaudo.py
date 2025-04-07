@@ -94,7 +94,9 @@ if opcion == "Recaudo":
                 df_ordenes["APELLIDO2"].fillna('').apply(lambda x: unidecode.unidecode(x))
             ).str.strip()
 
-        df1, df2, df3, df4 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo)
+        df1, df2, df3, df4, df5 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo), len(df_acumulado)
+
+        st.dataframe(df_acumulado)
 
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
