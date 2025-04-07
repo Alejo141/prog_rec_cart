@@ -111,15 +111,23 @@ if opcion == "Recaudo":
 
                 with col1:
                     sum_val_movil = df_total.groupby("CC")["VALOR MOVILIZADO"].sum().reset_index()
-                    #st.dataframe(sum_val_movil)
                     sum_total_val_movil = df_total["VALOR MOVILIZADO"].sum()
-                    st.dataframe(sum_val_movil, sum_total_val_movil)
+                    
+                    # Agregar fila de total
+                    total_row = pd.DataFrame([["TOTAL GENERAL", sum_total_val_movil]], columns=["CC", "VALOR MOVILIZADO"])
+                    sum_val_movil = pd.concat([sum_val_movil, total_row], ignore_index=True)
+                    
+                    st.dataframe(sum_val_movil)
 
                 with col2:
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
-                    #st.dataframe(sum_siigo)
                     sum_total_siigo = df_siigo["DÉBITO"].sum()
-                    st.dataframe(sum_siigo, sum_total_siigo)
+                    
+                    # Agregar fila de total
+                    total_row_siigo = pd.DataFrame([["TOTAL GENERAL", sum_total_siigo]], columns=["IDENTIFICACION", "DÉBITO"])
+                    sum_siigo = pd.concat([sum_siigo, total_row_siigo], ignore_index=True)
+                    
+                    st.dataframe(sum_siigo)
                 
                 # Convertir claves a string antes del merge
                 sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
