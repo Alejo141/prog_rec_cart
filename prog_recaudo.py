@@ -101,7 +101,7 @@ if opcion == "Recaudo":
                 df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
 
                 st.success("✅ Cruce total correcto.")
-                st.dataframe(df_total)
+                #st.dataframe(df_total)
 
                 col1, col2 = st.columns(2)
 
@@ -131,7 +131,7 @@ if opcion == "Recaudo":
 
 ###############################################################################################################################################
                 
-                st.subheader("Diferencias Efecty vs Siigo", divider="gray")
+                st.subheader("Diferencias Efecty vs Siigo", divider="blue")
                 
                 # Convertir claves a string antes del merge
                 sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
@@ -158,7 +158,7 @@ if opcion == "Recaudo":
 
 ###############################################################################################################################################
 
-                st.subheader("Diferencias Siigo vs Efecty", divider="gray")
+                st.subheader("Diferencias Siigo vs Efecty", divider="blue")
 
                 # Merge usando columnas diferentes
                 solo_df2 = sum_siigo.merge(
