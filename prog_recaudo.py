@@ -137,24 +137,9 @@ if opcion == "Recaudo":
                 st.dataframe(df_total)
 
 
-
-                if 'df_total' in locals() and not df_total.empty:
-                    st.subheader("📑 Organizar columnas del DataFrame")
-
-                    todas_las_columnas = list(df_total.columns)
-
-                    columnas_seleccionadas = st.multiselect(
-                        "Selecciona y organiza el orden de las columnas que deseas ver:",
-                        opciones=todas_las_columnas,
-                        default=todas_las_columnas
-                    )
-
-                    df_organizado = df_total[columnas_seleccionadas]
-                    st.dataframe(df_organizado)
-
-                else:
-                    st.info("🔄 Aún no se ha generado el DataFrame. Carga los archivos primero.")
-
+                st.subheader("📋 Dataframe para organizar")
+                df_organizable = df_total.copy()
+                st.dataframe(df_organizable)
 
 
                 """
