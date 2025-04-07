@@ -131,7 +131,7 @@ if opcion == "Recaudo":
 
 ###############################################################################################################################################
                 
-                st.subheader("Diferencias Efecty vs Siigo", icon="ℹ️", divider="gray")
+                st.subheader("Diferencias Efecty vs Siigo", divider="gray")
                 
                 # Convertir claves a string antes del merge
                 sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
@@ -158,7 +158,7 @@ if opcion == "Recaudo":
 
 ###############################################################################################################################################
 
-                st.subheader("Diferencias Siigo vs Efecty", icon="ℹ️", divider="gray")
+                st.subheader("Diferencias Siigo vs Efecty", divider="gray")
 
                 # Merge usando columnas diferentes
                 solo_df2 = sum_siigo.merge(
