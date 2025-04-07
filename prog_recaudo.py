@@ -101,7 +101,7 @@ if opcion == "Recaudo":
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
-                sum_recaudo = df_total("CC")["VALOR MOVILIZADO"].sum().reset_index()
+                sum_recaudo = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
                 st.success(sum_recaudo)
 
                 # Descargar resultado
