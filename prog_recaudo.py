@@ -14,12 +14,12 @@ st.title("📊 Captura de Datos")
 opcion = st.sidebar.selectbox("Selecciona una opción:", ["Inicio", "Recaudo", "Cartera"])
 
 # ------------------- FUNCIONES GENERALES -------------------
-def generar_xlsx(df1, df2):
+def generar_xlsx(df1, df2, df3):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df1.to_excel(writer, sheet_name='Datos_Cruzados', index=False)
         df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
-        df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=5, index=False)
+        df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=5, index=False)
     output.seek(0)
     return output
 
@@ -85,6 +85,11 @@ if opcion == "Recaudo":
 
         st.dataframe(df_siigo)
 
+        df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^(FV\S*)\s+(\S+)')
+        print(df_siigo[['FACTURA', 'IDENTIFICACION']])
+
+        st.dataframe(df_siigo)
+
         if df1 == df2:
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
 
@@ -99,11 +104,15 @@ if opcion == "Recaudo":
 
                 col1, col2 = st.columns(2)
                 with col1:
-                    sum_recaudo = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
-                    st.dataframe(sum_recaudo)
+                    sum_val_movil = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
+                    st.dataframe(sum_val_movil)
+
+                with col2:
+                    sum_siigo = df_siigo.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
+                    #st.dataframe(sum_val_movil)
 
                 # Descargar resultado con dos hojas
-                xlsx = generar_xlsx(df_total, sum_recaudo)
+                xlsx = generar_xlsx(df_total, sum_val_movil, sum_siigo)
                 st.download_button(
                     label="📥 Descargar Excel",
                     data=xlsx,
