@@ -128,12 +128,25 @@ if opcion == "Recaudo":
                     how='left',
                     suffixes=('_df_sum_val_movil', '_df2_sum_siigo')
                 )
-
                 st.dataframe(solo_df1)
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
                 st.dataframe(no_en_sum_siigo)
+
+                # Merge usando columnas diferentes
+                solo_df2 = sum_siigo.merge(
+                    sum_val_movil,
+                    left_on='IDENTIFICACION',
+                    right_on='CC',
+                    how='left',
+                    suffixes=('_df2_sum_siigo', '_df_sum_val_movil')
+                )
+                st.dataframe(solo_df2)
+
+                no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
+                resultado = no_en_sum_val_movil[['CC', 'DÉBITO']]
+                st.dataframe(resultado)
 
                 # Descargar resultado con dos hojas
                 xlsx = generar_xlsx(df_total, sum_val_movil, sum_siigo)
