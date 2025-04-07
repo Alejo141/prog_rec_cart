@@ -138,7 +138,7 @@ if opcion == "Recaudo":
 
 
 
-                if not df_total.empty:
+                if 'df_total' in locals() and not df_total.empty:
                     st.subheader("📑 Organizar columnas del DataFrame")
 
                     todas_las_columnas = list(df_total.columns)
@@ -151,8 +151,9 @@ if opcion == "Recaudo":
 
                     df_organizado = df_total[columnas_seleccionadas]
                     st.dataframe(df_organizado)
+
                 else:
-                    st.warning("⚠️ El DataFrame df_total está vacío o no ha sido creado aún.")
+                    st.info("🔄 Aún no se ha generado el DataFrame. Carga los archivos primero.")
 
 
 
