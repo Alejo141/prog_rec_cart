@@ -145,6 +145,8 @@ if opcion == "Recaudo":
                 # Insertar columna al inicio (posición 0)
                 df_para_agregar.insert(0, "MEDIO DE PAGO", "EFECTY")
                 df_para_agregar.insert(1, "MEDIO DE RECAUDO", "")
+                df_para_agregar.insert(16, "VALIDADO", "")
+                df_para_agregar.insert(17, "COMPROBANTE CONTABLE", "")
                 st.dataframe(df_para_agregar)
 
 
