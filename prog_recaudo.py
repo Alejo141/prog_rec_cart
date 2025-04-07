@@ -136,6 +136,26 @@ if opcion == "Recaudo":
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
+
+                # Crear un nuevo DataFrame a partir de df_total
+                df_organizable = df_total.copy()
+
+                # Mostrarlo con opción de ordenar
+                st.subheader("📋 Datos organizables por AÑO y MES")
+
+                # Selección de columnas para ordenar
+                col1, col2 = st.columns(2)
+                with col1:
+                    columna_orden_1 = st.selectbox("Ordenar por (primario):", df_organizable.columns, index=df_organizable.columns.get_loc("AÑO") if "AÑO" in df_organizable.columns else 0)
+                with col2:
+                    columna_orden_2 = st.selectbox("Ordenar por (secundario):", df_organizable.columns, index=df_organizable.columns.get_loc("MES") if "MES" in df_organizable.columns else 1)
+
+                # Ordenar el DataFrame
+                df_organizable = df_organizable.sort_values(by=[columna_orden_1, columna_orden_2])
+
+                # Mostrar el resultado
+                st.dataframe(df_organizable)
+
                 col1, col2 = st.columns(2)
 
                 # Estandarizar nombres de columnas (en mayúsculas y sin espacios)
