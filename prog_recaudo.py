@@ -85,7 +85,7 @@ if opcion == "Recaudo":
 
         #st.dataframe(df_siigo)
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
-        df_siigo[['FACTURA_NUMERO', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
+        df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
         st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
         st.dataframe(df_siigo)
