@@ -14,12 +14,13 @@ st.title("📊 Captura de Datos")
 opcion = st.sidebar.selectbox("Selecciona una opción:", ["Inicio", "Recaudo", "Cartera"])
 
 # ------------------- FUNCIONES GENERALES -------------------
-def generar_xlsx(df1, df2, df3):
+def generar_xlsx(df1, df2, df3, df4):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df1.to_excel(writer, sheet_name='Datos_Cruzados', index=False)
         df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
         df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=5, index=False)
+        df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=9, index=False)
     output.seek(0)
     return output
 
@@ -154,7 +155,7 @@ if opcion == "Recaudo":
 
 
                 # Descargar resultado con dos hojas
-                xlsx = generar_xlsx(df_total, sum_val_movil, sum_siigo)
+                xlsx = generar_xlsx(df_total, sum_val_movil, sum_siigo, resultado)
                 st.download_button(
                     label="📥 Descargar Excel",
                     data=xlsx,
