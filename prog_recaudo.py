@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from io import BytesIO
+import locale
 import os
 import unidecode  # type: ignore
 
@@ -49,6 +50,16 @@ if opcion == "Recaudo":
         archivo_provision = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
     with col4:
         archivo_siigo = st.file_uploader("📂 Cargar archivo Excel - Siigo", type=["xlsx"])
+
+    # Establecer localización en español para nombres de mes
+    try:
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    except:
+        try:
+            locale.setlocale(locale.LC_TIME, 'es_ES')
+        except:
+            st.warning("⚠️ No se pudo establecer la localización a español. El nombre del mes podría mostrarse en inglés.")
+
 
     if archivo_liquidacion and archivo_ordenes and archivo_provision:
         # Cargar los datos en DataFrames
@@ -100,12 +111,10 @@ if opcion == "Recaudo":
             if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
                 df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
                 
-                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                # AÑADIDO: Separar FECHA en columnas AÑO y MES
+                # AÑADIDO: Separar FECHA en columnas AÑO y MES (en español y mayúscula)
                 df_total['FECHA'] = pd.to_datetime(df_total['FECHA'], errors='coerce')
                 df_total['AÑO'] = df_total['FECHA'].dt.year
-                df_total['MES'] = df_total['FECHA'].dt.month_name().str.upper()
-                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                df_total['MES'] = df_total['FECHA'].dt.strftime('%B').str.upper()
 
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
