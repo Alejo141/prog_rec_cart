@@ -104,12 +104,15 @@ if opcion == "Recaudo":
 
                 col1, col2 = st.columns(2)
                 with col1:
-                    sum_val_movil = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
+                    sum_val_movil = df_total.groupby("CC")["VALOR MOVILIZADO"].sum().reset_index()
                     st.dataframe(sum_val_movil)
 
                 with col2:
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
                     st.dataframe(sum_siigo)
+
+                solo_df1 = sum_val_movil[~sum_val_movil["CC"].isin(sum_siigo['IDENTIFICACION'])]
+                st.dataframe(solo_df1)
 
                 # Descargar resultado con dos hojas
                 xlsx = generar_xlsx(df_total, sum_val_movil, sum_siigo)
