@@ -21,7 +21,7 @@ def generar_xlsx(df1, df2, df3, df4, df5):
         df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
         df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=9, index=False)
         df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=15, index=False)
-        df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=24, index=False)
+        df5.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=24, index=False)
     output.seek(0)
     return output
 
