@@ -141,7 +141,13 @@ if opcion == "Recaudo":
                     how='left',
                     suffixes=('_df_sum_val_movil', '_df2_sum_siigo')
                 )
+                # Calcular diferencias entre VALOR MOVILIZADO y DÉBITO
+                solo_df1["DIFERENCIA_EFECTY_SIIGO"] = solo_df1["VALOR MOVILIZADO"] - solo_df1["DÉBITO"]
+                solo_df1["DIFERENCIA_SIIGO_EFECTY"] = solo_df1["DÉBITO"] - solo_df1["VALOR MOVILIZADO"]
+
                 st.dataframe(solo_df1)
+                
+                
 
                 st.subheader("Diferencias Efecty vs Siigo")
 
@@ -157,6 +163,9 @@ if opcion == "Recaudo":
                     how='left',
                     suffixes=('_df2_sum_siigo', '_df_sum_val_movil')
                 )
+                solo_df2["DIFERENCIA_EFECTY_SIIGO"] = solo_df2["VALOR MOVILIZADO"] - solo_df2["DÉBITO"]
+                solo_df2["DIFERENCIA_SIIGO_EFECTY"] = solo_df2["DÉBITO"] - solo_df2["VALOR MOVILIZADO"]
+
                 st.dataframe(solo_df2)
 
                 st.subheader("Diferencias Siigo vs Efecty")
