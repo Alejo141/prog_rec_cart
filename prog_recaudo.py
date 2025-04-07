@@ -142,6 +142,9 @@ if opcion == "Recaudo":
                 st.dataframe(df_organizable)
 
                 df_para_agregar = df_organizable[["FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "NUMERO_ORDEN"]]
+                # Agregar columna con valor fijo
+                # Insertar columna al inicio (posición 0)
+                df_para_agregar.insert(0, "MEDIO DE PAGO", "EFECTY")
                 st.dataframe(df_para_agregar)
 
 
