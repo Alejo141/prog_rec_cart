@@ -84,7 +84,7 @@ if opcion == "Recaudo":
         df1, df2, df3, df4 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo)
 
         #st.dataframe(df_siigo)
-
+        df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^(FV\S*)\s+(\S+)')
         st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
