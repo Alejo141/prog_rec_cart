@@ -116,7 +116,7 @@ if opcion == "Recaudo":
                     total_row = pd.DataFrame([["TOTAL GENERAL", sum_total_val_movil]], columns=["CC", "VALOR MOVILIZADO"])
                     sum_val_movil = pd.concat([sum_val_movil, total_row], ignore_index=True)
                     
-                    #st.dataframe(sum_val_movil)
+                    st.dataframe(sum_val_movil)
 
                 with col2:
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
@@ -126,7 +126,7 @@ if opcion == "Recaudo":
                     total_row_siigo = pd.DataFrame([["TOTAL GENERAL", sum_total_siigo]], columns=["IDENTIFICACION", "DÉBITO"])
                     sum_siigo = pd.concat([sum_siigo, total_row_siigo], ignore_index=True)
                     
-                    #st.dataframe(sum_siigo)
+                    st.dataframe(sum_siigo)
 
 ###############################################################################################################################################
                 
