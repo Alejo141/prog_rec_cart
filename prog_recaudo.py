@@ -131,7 +131,7 @@ if opcion == "Recaudo":
                 )
                 st.dataframe(solo_df1)
 
-                st.subheader("Diferencias Liquidación vs Siigo")
+                st.subheader("Diferencias Efecty vs Siigo")
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
@@ -147,7 +147,7 @@ if opcion == "Recaudo":
                 )
                 st.dataframe(solo_df2)
 
-                st.subheader("Diferencias Siigo vs Liquidación")
+                st.subheader("Diferencias Siigo vs Efecty")
 
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
                 resultado = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
