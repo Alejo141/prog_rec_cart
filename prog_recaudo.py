@@ -158,6 +158,13 @@ if opcion == "Recaudo":
                 df_para_agregar.insert(1, "MEDIO DE RECAUDO", "")
                 df_para_agregar.insert(16, "VALIDADO", "")
                 df_para_agregar.insert(17, "COMPROBANTE CONTABLE", "")
+                # Renombrar columnas de df_para_agregar para que coincidan con las de df_acumulado
+                df_para_agregar = df_para_agregar.rename(columns={
+                    "NUMERO_ORDEN": "ORDEN DE SERVICIO",
+                    "CC": "CEDULA",
+                    "NOMBRE_COMPLETO": "NOMBRE",
+                    "PROYECTO": "MUNICIPIO"
+                })
                 st.dataframe(df_para_agregar)
 
                 st.subheader("📋 Base Unida")
