@@ -45,12 +45,14 @@ if opcion == "Recaudo":
     with col2:
         archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel - Órdenes", type=["xlsx"])
 
-    col3, col4 = st.columns(2)
+    col3, col4, col5 = st.columns(3)
 
     with col3:
         archivo_provision = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
     with col4:
         archivo_siigo = st.file_uploader("📂 Cargar archivo Excel - Siigo", type=["xlsx"])
+    with col5:
+        archivo_siigo = st.file_uploader("📂 Cargar archivo Excel - Acumulado", type=["xlsx"])
 
 
     if archivo_liquidacion and archivo_ordenes and archivo_provision:
@@ -136,8 +138,9 @@ if opcion == "Recaudo":
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
-
-                st.subheader("📋 Dataframe para organizar")
+###############################################################################################################################################
+                
+                st.subheader("📋 Base para agregar al Acumulado")
                 df_organizable = df_total.copy()
                 df_para_agregar = df_organizable[["FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "NUMERO_ORDEN", "VALOR MOVILIZADO","VALOR COMISIÓN",
                                                   "IVA", "TOTAL LIQUIDACIÓN", "NUI", "CC", "NOMBRE_COMPLETO", "FACTURA", "PROYECTO"]]
@@ -148,6 +151,8 @@ if opcion == "Recaudo":
                 df_para_agregar.insert(16, "VALIDADO", "")
                 df_para_agregar.insert(17, "COMPROBANTE CONTABLE", "")
                 st.dataframe(df_para_agregar)
+
+###############################################################################################################################################
 
 
                 col1, col2 = st.columns(2)
