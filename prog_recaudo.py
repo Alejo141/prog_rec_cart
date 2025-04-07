@@ -160,6 +160,10 @@ if opcion == "Recaudo":
                 df_para_agregar.insert(17, "COMPROBANTE CONTABLE", "")
                 st.dataframe(df_para_agregar)
 
+
+                df_unido = pd.concat([df_acumulado, df_para_agregar], axis=0, ignore_index=True)
+                st.dataframe(df_unido)
+
 ###############################################################################################################################################
 
 
