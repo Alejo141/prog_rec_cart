@@ -101,8 +101,13 @@ if opcion == "Recaudo":
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
-                sum_recaudo = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
-                st.dataframe(sum_recaudo)
+                # Columnas para cargar archivos
+                col1, col2 = st.columns(2)
+
+                # Subir archivos
+                with col1:
+                    sum_recaudo = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
+                    st.dataframe(sum_recaudo)
 
                 # Descargar resultado
                 xlsx = generar_xlsx(df_total)
