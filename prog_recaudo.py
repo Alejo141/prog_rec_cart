@@ -139,8 +139,6 @@ if opcion == "Recaudo":
 
                 st.subheader("📋 Dataframe para organizar")
                 df_organizable = df_total.copy()
-                st.dataframe(df_organizable)
-
                 df_para_agregar = df_organizable[["FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "NUMERO_ORDEN"]]
                 # Agregar columna con valor fijo
                 # Insertar columna al inicio (posición 0)
