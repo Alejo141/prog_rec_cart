@@ -128,10 +128,10 @@ if opcion == "Recaudo":
                     'DECEMBER': 'DICIEMBRE'
                 }
                 
-                # AÑADIDO: Separar FECHA en columnas AÑO y MES (en español y mayúscula)
+                # Convertir a datetime y extraer año y mes en español
                 df_total['FECHA'] = pd.to_datetime(df_total['FECHA'], errors='coerce')
                 df_total['AÑO'] = df_total['FECHA'].dt.year
-                df_total['MES'] = df_total['FECHA'].dt.strftime('%B').str.upper()
+                df_total['MES'] = df_total['FECHA'].dt.strftime('%B').str.upper().map(meses_es)
 
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
