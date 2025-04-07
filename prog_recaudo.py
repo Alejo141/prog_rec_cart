@@ -115,7 +115,7 @@ if opcion == "Recaudo":
                 #st.dataframe(solo_df1)
                 #st.write("Columnas en sum_val_movil:", sum_val_movil.columns.tolist())
                 #st.write("Columnas en sum_siigo:", sum_siigo.columns.tolist())
-                solo_df1 =  df_total.merge(df_siigo, on='CC', how='left', suffixes=('_df_sum_val_movil', '_df2_sum_siigo'))
+                solo_df1 =  df_total.merge(df_siigo, on='IDENTIFICACION', how='left', suffixes=('_df_sum_val_movil', '_df2_sum_siigo'))
                 st.dataframe(solo_df1)
                 no_en_df_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
                 st.dataframe(no_en_df_siigo)
