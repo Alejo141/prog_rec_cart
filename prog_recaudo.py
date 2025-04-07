@@ -38,14 +38,14 @@ if opcion == "Recaudo":
     st.subheader("📄 Procesamiento de Recaudo")
 
     # Columnas para cargar archivos
-    col1, col2, col3, col4 = st.columns(2)
+    col1, col2 = st.columns(2)
 
     with col1:
         archivo_liquidacion = st.file_uploader("📂 Cargar archivo Excel - Liquidación", type=["xlsx"])
     with col2:
         archivo_ordenes = st.file_uploader("📂 Cargar archivo Excel - Órdenes", type=["xlsx"])
 
-    #col3, col4 = st.columns(2)
+    col3, col4 = st.columns(2)
 
     with col3:
         archivo_provision = st.file_uploader("📂 Cargar archivo Excel - Provisión", type=["xlsx"])
