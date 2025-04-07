@@ -112,10 +112,14 @@ if opcion == "Recaudo":
                 with col1:
                     sum_val_movil = df_total.groupby("CC")["VALOR MOVILIZADO"].sum().reset_index()
                     st.dataframe(sum_val_movil)
+                    sum_total_val_movil = df_total["VALOR MOVILIZADO"].sum()
+                    st.dataframe(sum_total_val_movil)
 
                 with col2:
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
                     st.dataframe(sum_siigo)
+                    sum_total_siigo = df_total["DÉBITO"].sum()
+                    st.dataframe(sum_total_siigo)
                 
                 # Convertir claves a string antes del merge
                 sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
