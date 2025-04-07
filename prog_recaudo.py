@@ -89,7 +89,7 @@ if opcion == "Recaudo":
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
         #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
-        st.dataframe(df_siigo)
+        #st.dataframe(df_siigo)
 
         if df1 == df2:
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
@@ -177,6 +177,13 @@ if opcion == "Recaudo":
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
                 resultado_2 = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
                 st.dataframe(resultado_2)
+
+                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                # AÑADIDO: Separar FECHA en columnas AÑO y MES
+                df_total['FECHA'] = pd.to_datetime(df_total['FECHA'], errors='coerce')
+                df_total['AÑO'] = df_total['FECHA'].dt.year
+                df_total['MES'] = df_total['FECHA'].dt.month_name().str.upper()
+                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
                 # Descargar resultado con dos hojas
