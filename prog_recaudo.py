@@ -141,6 +141,9 @@ if opcion == "Recaudo":
                 df_organizable = df_total.copy()
                 st.dataframe(df_organizable)
 
+                df_para_agregar = df_organizable["FECHA","MES","AÑO","CÓDIGO PUNTO DE SERVICIO","NUMERO_ORDEN" ]
+                st.dataframe(df_para_agregar)
+
 
                 """
                 # Crear un nuevo DataFrame a partir de df_total
