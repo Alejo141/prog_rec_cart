@@ -146,7 +146,6 @@ if opcion == "Recaudo":
 
                 st.dataframe(solo_df1)
                 
-                
 
                 st.subheader("Diferencias Efecty vs Siigo")
 
