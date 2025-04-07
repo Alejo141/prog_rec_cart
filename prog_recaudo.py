@@ -99,6 +99,13 @@ if opcion == "Recaudo":
 
             if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
                 df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
+                
+                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                # AÑADIDO: Separar FECHA en columnas AÑO y MES
+                df_total['FECHA'] = pd.to_datetime(df_total['FECHA'], errors='coerce')
+                df_total['AÑO'] = df_total['FECHA'].dt.year
+                df_total['MES'] = df_total['FECHA'].dt.month_name().str.upper()
+                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
@@ -177,13 +184,6 @@ if opcion == "Recaudo":
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
                 resultado_2 = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
                 st.dataframe(resultado_2)
-
-                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                # AÑADIDO: Separar FECHA en columnas AÑO y MES
-                df_total['FECHA'] = pd.to_datetime(df_total['FECHA'], errors='coerce')
-                df_total['AÑO'] = df_total['FECHA'].dt.year
-                df_total['MES'] = df_total['FECHA'].dt.month_name().str.upper()
-                # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
                 # Descargar resultado con dos hojas
