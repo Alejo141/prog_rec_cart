@@ -102,7 +102,7 @@ if opcion == "Recaudo":
                 st.dataframe(df_total)
 
                 sum_recaudo = df_total.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
-                st.success(sum_recaudo)
+                st.dataframe(sum_recaudo)
 
                 # Descargar resultado
                 xlsx = generar_xlsx(df_total)
