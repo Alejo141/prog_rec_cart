@@ -86,7 +86,7 @@ if opcion == "Recaudo":
         #st.dataframe(df_siigo)
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
-        st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
+        #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
         st.dataframe(df_siigo)
 
@@ -108,8 +108,8 @@ if opcion == "Recaudo":
                     st.dataframe(sum_val_movil)
 
                 with col2:
-                    sum_siigo = df_siigo.groupby('CC')["VALOR MOVILIZADO"].sum().reset_index()
-                    #st.dataframe(sum_val_movil)
+                    sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
+                    st.dataframe(sum_siigo)
 
                 # Descargar resultado con dos hojas
                 xlsx = generar_xlsx(df_total, sum_val_movil, sum_siigo)
