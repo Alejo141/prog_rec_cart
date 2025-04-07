@@ -89,7 +89,7 @@ if opcion == "Recaudo":
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
         #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
-        #st.dataframe(df_siigo)
+        st.dataframe(df_siigo)
 
         if df1 == df2:
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
@@ -101,7 +101,7 @@ if opcion == "Recaudo":
                 df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
 
                 st.success("✅ Cruce total correcto.")
-                #st.dataframe(df_total)
+                st.dataframe(df_total)
 
                 col1, col2 = st.columns(2)
 
