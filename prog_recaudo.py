@@ -18,7 +18,8 @@ def generar_xlsx(df1, df2):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df1.to_excel(writer, sheet_name='Datos_Cruzados', index=False)
-        df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 2, startcol=3, index=False)
+        df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
+        df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=5, index=False)
     output.seek(0)
     return output
 
