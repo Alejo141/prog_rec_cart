@@ -103,6 +103,11 @@ if opcion == "Recaudo":
                 st.dataframe(df_total)
 
                 col1, col2 = st.columns(2)
+
+                # Estandarizar nombres de columnas (en mayúsculas y sin espacios)
+                df_total.columns = df_total.columns.str.upper().str.strip()
+                df_siigo.columns = df_siigo.columns.str.upper().str.strip()
+
                 with col1:
                     sum_val_movil = df_total.groupby("CC")["VALOR MOVILIZADO"].sum().reset_index()
                     st.dataframe(sum_val_movil)
@@ -111,12 +116,18 @@ if opcion == "Recaudo":
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
                     st.dataframe(sum_siigo)
 
-                #solo_df1 = sum_val_movil[~sum_val_movil["CC"].isin(sum_siigo['IDENTIFICACION'])]
-                #st.dataframe(solo_df1)
-                #st.write("Columnas en sum_val_movil:", sum_val_movil.columns.tolist())
-                #st.write("Columnas en sum_siigo:", sum_siigo.columns.tolist())
-                solo_df1 =  sum_val_movil.merge(sum_siigo, on='IDENTIFICACION', how='left', suffixes=('_df_sum_val_movil', '_df2_sum_siigo'))
+                # Merge usando columnas diferentes
+                solo_df1 = sum_val_movil.merge(
+                    sum_siigo,
+                    left_on='CC',
+                    right_on='IDENTIFICACION',
+                    how='left',
+                    suffixes=('_df_sum_val_movil', '_df2_sum_siigo')
+                )
+
                 st.dataframe(solo_df1)
+
+                # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
                 st.dataframe(no_en_sum_siigo)
 
