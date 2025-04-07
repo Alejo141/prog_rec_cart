@@ -160,13 +160,13 @@ if opcion == "Recaudo":
                 df_para_agregar.insert(17, "COMPROBANTE CONTABLE", "")
                 st.dataframe(df_para_agregar)
 
-
+                st.subheader("📋 Base Unida")
                 # Asegurar que ambos DataFrames tengan el mismo número de columnas
                 min_cols = min(df_acumulado.shape[1], df_para_agregar.shape[1])
                 df_acumulado = df_acumulado.iloc[:, :min_cols]
                 df_para_agregar = df_para_agregar.iloc[:, :min_cols]
 
-                df_unido = pd.concat([df_acumulado, df_para_agregar], axis=0, ignore_index=True)
+                df_unido = pd.concat([df_para_agregar,df_acumulado], axis=0, ignore_index=True)
                 st.dataframe(df_unido)
 
 ###############################################################################################################################################
