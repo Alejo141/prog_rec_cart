@@ -138,21 +138,22 @@ if opcion == "Recaudo":
 
 
 
-                st.subheader("📑 Organizar columnas del DataFrame")
+                if not df_total.empty:
+                    st.subheader("📑 Organizar columnas del DataFrame")
 
-                # Lista actual de columnas
-                todas_las_columnas = list(df_total.columns)
+                    todas_las_columnas = list(df_total.columns)
 
-                # Permitir al usuario seleccionar y reordenar columnas
-                columnas_seleccionadas = st.multiselect(
-                    "Selecciona y organiza el orden de las columnas que deseas ver:",
-                    opciones=todas_las_columnas,
-                    default=todas_las_columnas
-                )
+                    columnas_seleccionadas = st.multiselect(
+                        "Selecciona y organiza el orden de las columnas que deseas ver:",
+                        opciones=todas_las_columnas,
+                        default=todas_las_columnas
+                    )
 
-                # Mostrar DataFrame con el orden personalizado
-                df_organizado = df_total[columnas_seleccionadas]
-                st.dataframe(df_organizado)
+                    df_organizado = df_total[columnas_seleccionadas]
+                    st.dataframe(df_organizado)
+                else:
+                    st.warning("⚠️ El DataFrame df_total está vacío o no ha sido creado aún.")
+
 
 
                 """
