@@ -52,7 +52,7 @@ if opcion == "Recaudo":
     with col4:
         archivo_siigo = st.file_uploader("📂 Cargar archivo Excel - Siigo", type=["xlsx"])
     with col5:
-        archivo_siigo = st.file_uploader("📂 Cargar archivo Excel - Acumulado", type=["xlsx"])
+        archivo_acumulado = st.file_uploader("📂 Cargar archivo Excel - Acumulado", type=["xlsx"])
 
 
     if archivo_liquidacion and archivo_ordenes and archivo_provision:
