@@ -84,17 +84,16 @@ if opcion == "Recaudo":
 
         df1, df2, df3, df4 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo)
 
-        #st.dataframe(df_siigo)
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
         #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
-        st.dataframe(df_siigo)
+        #st.dataframe(df_siigo)
 
         if df1 == df2:
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
 
-            st.success("✅ Datos cruzados correctamente.")
+            #st.success("✅ Datos cruzados correctamente.")
             df_merged = df_merged.drop(columns=["NOMBRES", "APELLIDO1", "APELLIDO2"]).reset_index(drop=True)
 
             if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
@@ -117,7 +116,7 @@ if opcion == "Recaudo":
                     total_row = pd.DataFrame([["TOTAL GENERAL", sum_total_val_movil]], columns=["CC", "VALOR MOVILIZADO"])
                     sum_val_movil = pd.concat([sum_val_movil, total_row], ignore_index=True)
                     
-                    st.dataframe(sum_val_movil)
+                    #st.dataframe(sum_val_movil)
 
                 with col2:
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
@@ -127,7 +126,7 @@ if opcion == "Recaudo":
                     total_row_siigo = pd.DataFrame([["TOTAL GENERAL", sum_total_siigo]], columns=["IDENTIFICACION", "DÉBITO"])
                     sum_siigo = pd.concat([sum_siigo, total_row_siigo], ignore_index=True)
                     
-                    st.dataframe(sum_siigo)
+                    #st.dataframe(sum_siigo)
                 
                 # Convertir claves a string antes del merge
                 sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
@@ -170,6 +169,7 @@ if opcion == "Recaudo":
 
                 st.subheader("Diferencias Siigo vs Efecty")
 
+                #Resultado o diferencias
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
                 resultado = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
                 st.dataframe(resultado)
