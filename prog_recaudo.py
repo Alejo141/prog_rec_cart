@@ -127,6 +127,10 @@ if opcion == "Recaudo":
                     sum_siigo = pd.concat([sum_siigo, total_row_siigo], ignore_index=True)
                     
                     #st.dataframe(sum_siigo)
+
+###############################################################################################################################################
+                
+                st.subheader("Diferencias Efecty vs Siigo")
                 
                 # Convertir claves a string antes del merge
                 sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
@@ -145,9 +149,9 @@ if opcion == "Recaudo":
                 solo_df1["DIFERENCIA_SIIGO_EFECTY"] = solo_df1["DÉBITO"] - solo_df1["VALOR MOVILIZADO"]
 
                 st.dataframe(solo_df1)
-                
 
-                st.subheader("Diferencias Efecty vs Siigo")
+###############################################################################################################################################
+                st.subheader("Diferencias Siigo vs Efecty")
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
@@ -165,8 +169,6 @@ if opcion == "Recaudo":
                 solo_df2["DIFERENCIA_SIIGO_EFECTY"] = solo_df2["DÉBITO"] - solo_df2["VALOR MOVILIZADO"]
 
                 st.dataframe(solo_df2)
-
-                st.subheader("Diferencias Siigo vs Efecty")
 
                 #Resultado o diferencias
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
