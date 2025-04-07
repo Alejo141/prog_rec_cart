@@ -118,7 +118,7 @@ if opcion == "Recaudo":
                 with col2:
                     sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
                     #st.dataframe(sum_siigo)
-                    sum_total_siigo = df_total["DÉBITO"].sum()
+                    sum_total_siigo = df_siigo["DÉBITO"].sum()
                     st.dataframe(sum_siigo, sum_total_siigo)
                 
                 # Convertir claves a string antes del merge
