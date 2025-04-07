@@ -137,6 +137,25 @@ if opcion == "Recaudo":
                 st.dataframe(df_total)
 
 
+
+                st.subheader("📑 Organizar columnas del DataFrame")
+
+                # Lista actual de columnas
+                todas_las_columnas = list(df_total.columns)
+
+                # Permitir al usuario seleccionar y reordenar columnas
+                columnas_seleccionadas = st.multiselect(
+                    "Selecciona y organiza el orden de las columnas que deseas ver:",
+                    opciones=todas_las_columnas,
+                    default=todas_las_columnas
+                )
+
+                # Mostrar DataFrame con el orden personalizado
+                df_organizado = df_total[columnas_seleccionadas]
+                st.dataframe(df_organizado)
+
+
+                """
                 # Crear un nuevo DataFrame a partir de df_total
                 df_organizable = df_total.copy()
 
@@ -155,6 +174,7 @@ if opcion == "Recaudo":
 
                 # Mostrar el resultado
                 st.dataframe(df_organizable)
+                """
 
                 col1, col2 = st.columns(2)
 
