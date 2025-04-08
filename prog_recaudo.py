@@ -149,51 +149,7 @@ if opcion == "Recaudo":
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
 
-###############################################################################################################################################
-                
-                #st.write("Base para agregar al Acumulado")
-                df_organizable = df_total.copy()
-                df_para_agregar = df_organizable[["FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "NUMERO_ORDEN", "VALOR MOVILIZADO","VALOR COMISIÓN",
-                                                  "IVA", "TOTAL LIQUIDACIÓN", "NUI", "CC", "NOMBRE_COMPLETO", "FACTURA", "PROYECTO"]]
-                # Agregar columna con valor fijo
-                # Insertar columna al inicio (posición 0)
-                df_para_agregar.insert(0, "MEDIO DE PAGO", "EFECTY")
-                df_para_agregar.insert(1, "MEDIO DE RECAUDO", "")
-                df_para_agregar.insert(16, "VALIDADO", "")
-                df_para_agregar.insert(17, "COMPROBANTE CONTABLE", "")
-                
-                # Renombrar columnas de df_para_agregar para que coincidan con las de df_acumulado
-                df_para_agregar = df_para_agregar.rename(columns={
-                    "NUMERO_ORDEN": "ORDEN DE SERVICIO",
-                    "CC": "CEDULA",
-                    "NOMBRE_COMPLETO": "NOMBRE",
-                    "PROYECTO": "MUNICIPIO"
-                })
-                #st.dataframe(df_para_agregar)
-
-                st.subheader("📋 Base Unida Acumulada")
-                # Asegurar que ambos DataFrames tengan el mismo número de columnas
-                min_cols = min(df_acumulado.shape[1], df_para_agregar.shape[1])
-                df_acumulado = df_acumulado.iloc[:, :min_cols]
-                df_para_agregar = df_para_agregar.iloc[:, :min_cols]
-
-                df_unido = pd.concat([df_para_agregar,df_acumulado], axis=0, ignore_index=True)
-                st.dataframe(df_unido)
-
-                st.subheader("Totales:")
-
-                # Columnas para cargar archivos
-                col1, col2, col3= st.columns(3)
-
-                with col1:
-                    st.write("Acumulada:", len(df_acumulado))
-                with col2:
-                    st.write("Agregar:", len(df_para_agregar))
-                with col3:
-                    st.write("Unida:", len(df_unido))
-
-###############################################################################################################################################
-
+################################################################################################################################################
 
                 col1, col2 = st.columns(2)
 
@@ -269,6 +225,51 @@ if opcion == "Recaudo":
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
                 resultado_2 = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
                 st.dataframe(resultado_2)
+
+###############################################################################################################################################
+                
+                #st.write("Base para agregar al Acumulado")
+                df_organizable = df_total.copy()
+                df_para_agregar = df_organizable[["FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "NUMERO_ORDEN", "VALOR MOVILIZADO","VALOR COMISIÓN",
+                                                  "IVA", "TOTAL LIQUIDACIÓN", "NUI", "CC", "NOMBRE_COMPLETO", "FACTURA", "PROYECTO"]]
+                # Agregar columna con valor fijo
+                # Insertar columna al inicio (posición 0)
+                df_para_agregar.insert(0, "MEDIO DE PAGO", "EFECTY")
+                df_para_agregar.insert(1, "MEDIO DE RECAUDO", "")
+                df_para_agregar.insert(16, "VALIDADO", "")
+                df_para_agregar.insert(17, "COMPROBANTE CONTABLE", "")
+                
+                # Renombrar columnas de df_para_agregar para que coincidan con las de df_acumulado
+                df_para_agregar = df_para_agregar.rename(columns={
+                    "NUMERO_ORDEN": "ORDEN DE SERVICIO",
+                    "CC": "CEDULA",
+                    "NOMBRE_COMPLETO": "NOMBRE",
+                    "PROYECTO": "MUNICIPIO"
+                })
+                #st.dataframe(df_para_agregar)
+
+                st.subheader("📋 Base Unida Acumulada")
+                # Asegurar que ambos DataFrames tengan el mismo número de columnas
+                min_cols = min(df_acumulado.shape[1], df_para_agregar.shape[1])
+                df_acumulado = df_acumulado.iloc[:, :min_cols]
+                df_para_agregar = df_para_agregar.iloc[:, :min_cols]
+
+                df_unido = pd.concat([df_para_agregar,df_acumulado], axis=0, ignore_index=True)
+                st.dataframe(df_unido)
+
+                st.subheader("Totales:")
+
+                # Columnas para cargar archivos
+                col1, col2, col3= st.columns(3)
+
+                with col1:
+                    st.write("Acumulada:", len(df_acumulado))
+                with col2:
+                    st.write("Agregar:", len(df_para_agregar))
+                with col3:
+                    st.write("Unida:", len(df_unido))
+
+###############################################################################################################################################
 
 
                 # Descargar resultado con dos hojas
