@@ -96,8 +96,8 @@ if opcion == "Recaudo":
 
         df1, df2, df3, df4, df5 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo), len(df_acumulado)
 
-        st.write("Base inicial Acumulada")
-        st.dataframe(df_acumulado)
+        #st.write("Base inicial Acumulada")
+        #st.dataframe(df_acumulado)
 
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
@@ -169,10 +169,7 @@ if opcion == "Recaudo":
                     "NOMBRE_COMPLETO": "NOMBRE",
                     "PROYECTO": "MUNICIPIO"
                 })
-                st.dataframe(df_para_agregar)
-
-                st.write("Acumulada", len(df_acumulado))
-                st.write("Nueva para agregar", len(df_para_agregar))
+                #st.dataframe(df_para_agregar)
 
                 st.subheader("📋 Base Unida Acumulada")
                 # Asegurar que ambos DataFrames tengan el mismo número de columnas
@@ -182,7 +179,11 @@ if opcion == "Recaudo":
 
                 df_unido = pd.concat([df_para_agregar,df_acumulado], axis=0, ignore_index=True)
                 st.dataframe(df_unido)
-                st.write("Unida", len(df_unido))
+
+                st.subheader("Totales:")
+                st.write("Acumulada:", len(df_acumulado))
+                st.write("Agregar:", len(df_para_agregar))
+                st.write("Unida:", len(df_unido))
 
 ###############################################################################################################################################
 
