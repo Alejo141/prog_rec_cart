@@ -151,7 +151,7 @@ if opcion == "Recaudo":
 
 ###############################################################################################################################################
                 
-                st.write("Base para agregar al Acumulado")
+                #st.write("Base para agregar al Acumulado")
                 df_organizable = df_total.copy()
                 df_para_agregar = df_organizable[["FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "NUMERO_ORDEN", "VALOR MOVILIZADO","VALOR COMISIÓN",
                                                   "IVA", "TOTAL LIQUIDACIÓN", "NUI", "CC", "NOMBRE_COMPLETO", "FACTURA", "PROYECTO"]]
