@@ -16,7 +16,7 @@ st.title("📊 Captura de Datos")
 opcion = st.sidebar.selectbox("Selecciona una opción:", ["Inicio", "Recaudo", "Cartera"])
 
 # ------------------- FUNCIONES GENERALES -------------------
-def generar_xlsx(df1, df2, df3, df4, df5):
+def generar_xlsx(df1, df2, df3, df4, df5, df6):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df1.to_excel(writer, sheet_name='Datos_Cruzados', index=False)
@@ -24,6 +24,7 @@ def generar_xlsx(df1, df2, df3, df4, df5):
         df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=7, index=False)
         df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=10, index=False)
         df5.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=16, index=False)
+        df6.to_excel(writer, sheet_name='Recaudo_Acumulado', startrow= 0, startcol=0, index=False)
     output.seek(0)
     return output
 
@@ -273,7 +274,7 @@ if opcion == "Recaudo":
 
 
                 # Descargar resultado con dos hojas
-                xlsx = generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2)
+                xlsx = generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2, df_unido)
                 st.download_button(
                     label="📥 Descargar Excel",
                     data=xlsx,
