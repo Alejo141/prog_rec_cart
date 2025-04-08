@@ -181,9 +181,16 @@ if opcion == "Recaudo":
                 st.dataframe(df_unido)
 
                 st.subheader("Totales:")
-                st.write("Acumulada:", len(df_acumulado))
-                st.write("Agregar:", len(df_para_agregar))
-                st.write("Unida:", len(df_unido))
+
+                # Columnas para cargar archivos
+                col1, col2, col3= st.columns(3)
+
+                with col1:
+                    st.write("Acumulada:", len(df_acumulado))
+                with col2:
+                    st.write("Agregar:", len(df_para_agregar))
+                with col3:
+                    st.write("Unida:", len(df_unido))
 
 ###############################################################################################################################################
 
