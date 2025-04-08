@@ -96,7 +96,7 @@ if opcion == "Recaudo":
 
         df1, df2, df3, df4, df5 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo), len(df_acumulado)
 
-        st.write("Base Acumulada")
+        st.write("Base inicial Acumulada")
         st.dataframe(df_acumulado)
 
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
@@ -151,7 +151,7 @@ if opcion == "Recaudo":
 
 ###############################################################################################################################################
                 
-                st.subheader("📋 Base para agregar al Acumulado")
+                st.write("Base para agregar al Acumulado")
                 df_organizable = df_total.copy()
                 df_para_agregar = df_organizable[["FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "NUMERO_ORDEN", "VALOR MOVILIZADO","VALOR COMISIÓN",
                                                   "IVA", "TOTAL LIQUIDACIÓN", "NUI", "CC", "NOMBRE_COMPLETO", "FACTURA", "PROYECTO"]]
@@ -171,7 +171,10 @@ if opcion == "Recaudo":
                 })
                 st.dataframe(df_para_agregar)
 
-                st.subheader("📋 Base Unida")
+                st.write("Acumulada", len(df_acumulado))
+                st.write("Nueva para agregar", len(df_para_agregar))
+
+                st.subheader("📋 Base Unida Acumulada")
                 # Asegurar que ambos DataFrames tengan el mismo número de columnas
                 min_cols = min(df_acumulado.shape[1], df_para_agregar.shape[1])
                 df_acumulado = df_acumulado.iloc[:, :min_cols]
@@ -179,6 +182,7 @@ if opcion == "Recaudo":
 
                 df_unido = pd.concat([df_para_agregar,df_acumulado], axis=0, ignore_index=True)
                 st.dataframe(df_unido)
+                st.write("Unida", len(df_unido))
 
 ###############################################################################################################################################
 
