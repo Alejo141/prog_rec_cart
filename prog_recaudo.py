@@ -115,7 +115,12 @@ if opcion == "Recaudo":
             if "IDENTIFICACION" in df_merged.columns and "NUI" in df_provision.columns:
                 df_total = df_merged.merge(df_provision, left_on="IDENTIFICACION", right_on="NUI", how="inner")
 
-                df_total["FACTURA"] = df_total["FACTURA"].astype(str).str.replace(r"FE ", "", regex=True)
+                # Insertar un espacio entre 'FE' y un número si está pegado
+                df_total["FACTURA"] = df_total["FACTURA"].astype(str).str.replace(r"\bFE(?=\d)", "FE ", regex=True)
+
+                # Eliminar 'FE' (seguido o no de espacio)
+                df_total["FACTURA"] = df_total["FACTURA"].str.replace(r"\bFE\s*", "", regex=True)
+
 
                 # Establecer localización en español según el sistema operativo
                 sistema = platform.system()
