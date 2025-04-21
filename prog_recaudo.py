@@ -232,12 +232,14 @@ if opcion == "Recaudo":
                 df_solo_df1_fmt["DIFERENCIA_EFECTY_SIIGO"] = df_solo_df1_fmt["DIFERENCIA_EFECTY_SIIGO"].apply(formato_pesos)
 
                 st.dataframe(df_solo_df1_fmt)
-                st.dataframe(solo_df1)     
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
                 resultado_1 = no_en_sum_siigo[['CC', 'VALOR MOVILIZADO']]
-                st.dataframe(resultado_1)
+
+                df_resultado_1 = resultado_1.copy()
+                df_resultado_1['VALOR MOVILIZADO'] = df_resultado_1['VALOR MOVILIZADO'].apply(formato_pesos)
+                st.dataframe(df_resultado_1)
 
 ###############################################################################################################################################
 
