@@ -205,6 +205,7 @@ if opcion == "Recaudo":
                 #sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
                 sum_val_movil["CC"] = pd.to_numeric(sum_val_movil["CC"], errors="coerce")
                 #sum_siigo["IDENTIFICACION"] = sum_siigo["IDENTIFICACION"].astype(str)
+                sum_siigo["IDENTIFICACION"] = pd.to_numeric(sum_siigo["IDENTIFICACION"], errors="coerce")
 
                 # Merge usando columnas diferentes
                 solo_df1 = sum_val_movil.merge(
