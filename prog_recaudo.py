@@ -37,12 +37,12 @@ def generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2, df_unid
 
         # Escribir hojas con formato
         escribir_con_formato(df_total, "Base_Efecty", columnas_pesos=["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"])
-        escribir_con_formato(solo_df1, "Diferencias_Efecty_Siigo", columnas_pesos=["VALOR MOVILIZADO", "DÉBITO", "DIFERENCIA_EFECTY_SIIGO"])
-        escribir_con_formato(resultado_1, "No_en_Siigo", columnas_pesos=["VALOR MOVILIZADO"])
+        escribir_con_formato(solo_df1, "Diferencias", columnas_pesos=["VALOR MOVILIZADO", "DÉBITO", "DIFERENCIA_EFECTY_SIIGO"])
+        escribir_con_formato(resultado_1, "Diferencias", startrow= 1, startcol=1, index=False, columnas_pesos=["VALOR MOVILIZADO"])
         escribir_con_formato(solo_df2, "Diferencias_Siigo_Efecty", columnas_pesos=["VALOR MOVILIZADO", "DÉBITO", "DIFERENCIA_SIIGO_EFECTY"])
         escribir_con_formato(resultado_2, "No_en_Efecty", columnas_pesos=["DÉBITO"])
-        escribir_con_formato(df_unido, "Base_Unida", columnas_pesos=["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"])
-        escribir_con_formato(df_siigo_nui, "Base_Siigo_NUI", columnas_pesos=["DÉBITO"])
+        escribir_con_formato(df_unido, "Base_Acumulada", columnas_pesos=["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"])
+        escribir_con_formato(df_siigo_nui, "Base_Siigo", columnas_pesos=["DÉBITO"])
 
     output.seek(0)
     return output
