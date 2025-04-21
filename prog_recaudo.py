@@ -269,7 +269,7 @@ if opcion == "Recaudo":
 
                 df_resultado_2 = resultado_2.copy()
                 df_resultado_2['DÉBITO'] = df_resultado_2['DÉBITO'].apply(formato_pesos)
-                st.dataframe(resultado_2)
+                st.dataframe(df_resultado_2)
 
 ###############################################################################################################################################
                 
