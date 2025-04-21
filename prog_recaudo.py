@@ -35,6 +35,13 @@ def generar_csv(df):
     output.seek(0)
     return output
 
+def formato_pesos(valor):
+    try:
+        return f"${valor:,.0f}".replace(",", ".")
+    except:
+        return valor
+
+
 # ------------------- SECCIÓN DE FACTURACIÓN -------------------
 if opcion == "Recaudo":
     st.subheader("📄 Procesamiento de Recaudo")
@@ -173,8 +180,6 @@ if opcion == "Recaudo":
 
                 col1, col2 = st.columns(2)
 
-                df_total["VALOR MOVILIZADO"] = df_total["VALOR MOVILIZADO"].astype(float).apply(lambda x: f"${x:,.2f}")
-
                 # Estandarizar nombres de columnas (en mayúsculas y sin espacios)
                 df_total.columns = df_total.columns.str.upper().str.strip()
                 df_siigo.columns = df_siigo.columns.str.upper().str.strip()
@@ -204,6 +209,7 @@ if opcion == "Recaudo":
                 st.subheader("Diferencias Efecty vs Siigo", divider="blue")
                 
                 # Convertir claves a string antes del merge
+
                 sum_val_movil["CC"] = sum_val_movil["CC"]#.astype(str)
                 sum_siigo["IDENTIFICACION"] = sum_siigo["IDENTIFICACION"]#.astype(str)
                 #sum_siigo["IDENTIFICACION"] = pd.to_numeric(sum_siigo["IDENTIFICACION"], errors="coerce")
@@ -220,7 +226,12 @@ if opcion == "Recaudo":
                 solo_df1["DIFERENCIA_EFECTY_SIIGO"] = solo_df1["VALOR MOVILIZADO"] - solo_df1["DÉBITO"]
                 #solo_df1["DIFERENCIA_SIIGO_EFECTY"] = solo_df1["DÉBITO"] - solo_df1["VALOR MOVILIZADO"]
 
-                st.dataframe(solo_df1)           
+                df_solo_df1_fmt = solo_df1.copy()
+                df_solo_df1_fmt["VALOR MOVILIZADO"] = df_solo_df1_fmt["VALOR MOVILIZADO"].apply(formato_pesos)
+                df_solo_df1_fmt["DÉBITO"] = df_solo_df1_fmt["DÉBITO"].apply(formato_pesos)
+                df_solo_df1_fmt["DIFERENCIA_EFECTY_SIIGO"] = df_solo_df1_fmt["DIFERENCIA_EFECTY_SIIGO"].apply(formato_pesos)
+
+                st.dataframe(df_solo_df1_fmt)           
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
