@@ -103,14 +103,14 @@ if opcion == "Recaudo":
 
         # Se separa numero de factura y cedula
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
-        df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
+        df_siigo[['FACTURA', 'CEDULA']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
         #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
         st.write("Base inicial Siigo")
         st.dataframe(df_siigo)
 
         st.write("Base Siigo con NUI")
-        df_siigo_nui = df_siigo.merge(df_provision, left_on="IDENTIFICACION", right_on="CC", how="inner")
+        df_siigo_nui = df_siigo.merge(df_provision, left_on="CEDULA", right_on="CC", how="inner")
         st.dataframe(df_siigo_nui)
 
         if df1 == df2:
@@ -181,11 +181,11 @@ if opcion == "Recaudo":
                     #st.dataframe(sum_val_movil)
 
                 with col2:
-                    sum_siigo = df_siigo.groupby('IDENTIFICACION')["DÉBITO"].sum().reset_index()
+                    sum_siigo = df_siigo.groupby('CEDULA')["DÉBITO"].sum().reset_index()
                     sum_total_siigo = df_siigo["DÉBITO"].sum()
                     
                     # Agregar fila de total
-                    total_row_siigo = pd.DataFrame([["TOTAL GENERAL", sum_total_siigo]], columns=["IDENTIFICACION", "DÉBITO"])
+                    total_row_siigo = pd.DataFrame([["TOTAL GENERAL", sum_total_siigo]], columns=["CEDULA", "DÉBITO"])
                     sum_siigo = pd.concat([sum_siigo, total_row_siigo], ignore_index=True)
                     
                     #st.dataframe(sum_siigo)
