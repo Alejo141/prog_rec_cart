@@ -74,7 +74,7 @@ if opcion == "Recaudo":
 
         columnas_liqui = ["DOCUMENTO", "CÓDIGO PROYECTO", "FECHA", "FORMA DE PAGO", 
                           "CÓDIGO PUNTO DE SERVICIO", "VALOR MOVILIZADO", "VALOR COMISIÓN", 
-                          "IVA", "TOTAL LIQUIDACIÓN"]
+                          "IVA", "TOTAL LIQUIDACIÓN", "ANO"]
         columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
         columnas_provision = ["NUI", "CC", "PROYECTO"]
         columnas_siigo = ["CÓDIGO CONTABLE", "CUENTA CONTABLE", "COMPROBANTE", "SECUENCIA", "FECHA ELABORACIÓN", 
