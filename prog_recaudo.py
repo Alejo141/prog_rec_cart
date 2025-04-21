@@ -104,10 +104,13 @@ if opcion == "Recaudo":
         # Se separa numero de factura y cedula
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
-        st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
+        #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
         st.write("Base inicial Siigo")
         st.dataframe(df_siigo)
+
+        df_siigo['IDENTIFICACION'] = df_siigo['IDENTIFICACION'].astype(str).str.strip()
+        df_provision['CC'] = df_provision['CC'].astype(str).str.strip()
 
         st.write("Base Siigo con NUI")
         df_siigo_nui = df_siigo.merge(df_provision[['CC', 'NUI']], left_on="IDENTIFICACION", right_on="CC", how="inner").drop(columns=["CC"])
