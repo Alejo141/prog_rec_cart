@@ -78,8 +78,8 @@ if opcion == "Recaudo":
                           "IVA", "TOTAL LIQUIDACIÓN", "ANO"]
         columnas_ordenes = ["NUMERO_ORDEN", "IDENTIFICACION", "NOMBRES", "APELLIDO1", "APELLIDO2", "FACTURA"]
         columnas_provision = ["NUI", "CC", "PROYECTO"]
-        columnas_siigo = ["CÓDIGO CONTABLE", "CUENTA CONTABLE", "COMPROBANTE", "SECUENCIA", "FECHA ELABORACIÓN", 
-                          "IDENTIFICACIÓN", "NOMBRE DEL TERCERO", "DESCRIPCIÓN", "CENTRO DE COSTO", "DÉBITO"]
+        columnas_siigo = ["CÓDIGO CONTABLE", "CUENTA CONTABLE", "COMPROBANTE", "SECUENCIA", "FECHA ELABORACIÓN" 
+                            , "NOMBRE DEL TERCERO", "DESCRIPCIÓN", "CENTRO DE COSTO", "DÉBITO"]
         columnas_acumulado = ["MEDIO DE PAGO","MEDIO DE RECAUDO","FECHA", "MES", "AÑO", "CÓDIGO PUNTO DE SERVICIO", "ORDEN DE SERVICIO", "VALOR MOVILIZADO","VALOR COMISIÓN",
                               "IVA", "TOTAL LIQUIDACIÓN", "NUI", "CEDULA", "NOMBRE", "FACTURA", "MUNICIPIO","VALIDADO","COMPROBANTE CONTABLE"]
 
@@ -110,7 +110,7 @@ if opcion == "Recaudo":
         st.dataframe(df_siigo)
 
         st.write("Base Siigo con NUI")
-        df_siigo_nui = df_siigo.merge(df_provision, left_on="IDENTIFICACION", right_on="CC", how="inner")
+        df_siigo_nui = df_siigo.merge(df_provision[['CC', 'NUI']], left_on="IDENTIFICACION", right_on="CC", how="inner").drop(columns=["CC"])
         st.dataframe(df_siigo_nui)
 
         if df1 == df2:
