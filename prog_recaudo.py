@@ -256,6 +256,11 @@ if opcion == "Recaudo":
                 #solo_df2["DIFERENCIA_EFECTY_SIIGO"] = solo_df2["VALOR MOVILIZADO"] - solo_df2["DÉBITO"]
                 solo_df2["DIFERENCIA_SIIGO_EFECTY"] = solo_df2["DÉBITO"] - solo_df2["VALOR MOVILIZADO"]
 
+                df_solo_df2_fmt = solo_df2.copy()
+                df_solo_df2_fmt["DÉBITO"] = df_solo_df2_fmt["DÉBITO"].apply(formato_pesos)
+                df_solo_df2_fmt["VALOR MOVILIZADO"] = df_solo_df2_fmt["VALOR MOVILIZADO"].apply(formato_pesos)
+                df_solo_df2_fmt["DIFERENCIA_EFECTY_SIIGO"] = df_solo_df2_fmt["DIFERENCIA_EFECTY_SIIGO"].apply(formato_pesos)
+
                 st.dataframe(solo_df2)
 
                 #Resultado o diferencias
