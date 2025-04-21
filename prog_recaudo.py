@@ -15,43 +15,59 @@ st.title("📊 Captura de Datos")
 # Menú de selección
 opcion = st.sidebar.selectbox("Selecciona una opción:", ["Inicio", "Recaudo", "Cartera"])
 
-# ------------------- FUNCIONES GENERALES -------------------
-def generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2, df_unido, df_siigo_nui):
+# ------------------- FUNCIOfrom io import BytesIO
+import pandas as pd
+
+def generar_xlsx(df1, df2, df3, df4, df5, df6, df7):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         workbook = writer.book
-
-        # Formato de pesos
         formato_pesos = workbook.add_format({'num_format': '$#,##0', 'align': 'right'})
 
-        # Función auxiliar para aplicar formato a columnas específicas
-        def escribir_con_formato(df, hoja, columnas_pesos=None):
-            df.to_excel(writer, index=False, sheet_name=hoja)
-            hoja_excel = writer.sheets[hoja]
-            if columnas_pesos:
-                for idx, col in enumerate(df.columns):
-                    if col in columnas_pesos:
-                        hoja_excel.set_column(idx, idx, 18, formato_pesos)
-                    else:
-                        hoja_excel.set_column(idx, idx, 18)
+        # --- Hoja: Datos_Cruzados Efecty ---
+        df1.to_excel(writer, sheet_name='Datos_Cruzados Efecty', index=False)
+        hoja1 = writer.sheets['Datos_Cruzados Efecty']
+        columnas_pesos_efecty = ["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"]
+        for i, col in enumerate(df1.columns):
+            if col in columnas_pesos_efecty:
+                hoja1.set_column(i, i, 18, formato_pesos)
+            else:
+                hoja1.set_column(i, i, 18)
 
-        # Escribir hojas con formato
-        escribir_con_formato(df_total, "Base_Efecty", columnas_pesos=["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"])
-        escribir_con_formato(solo_df1, "Diferencias", columnas_pesos=["VALOR MOVILIZADO", "DÉBITO", "DIFERENCIA_EFECTY_SIIGO"])
-        escribir_con_formato(resultado_1, "Diferencias", startrow= 1, startcol=1, index=False, columnas_pesos=["VALOR MOVILIZADO"])
-        escribir_con_formato(solo_df2, "Diferencias_Siigo_Efecty", columnas_pesos=["VALOR MOVILIZADO", "DÉBITO", "DIFERENCIA_SIIGO_EFECTY"])
-        escribir_con_formato(resultado_2, "No_en_Efecty", columnas_pesos=["DÉBITO"])
-        escribir_con_formato(df_unido, "Base_Acumulada", columnas_pesos=["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"])
-        escribir_con_formato(df_siigo_nui, "Base_Siigo", columnas_pesos=["DÉBITO"])
+        # --- Hoja: Datos_Cruzados Siigo ---
+        df7.to_excel(writer, sheet_name='Datos_Cruzados Siigo', index=False)
+        hoja7 = writer.sheets['Datos_Cruzados Siigo']
+        for i, col in enumerate(df7.columns):
+            if col == "DÉBITO":
+                hoja7.set_column(i, i, 18, formato_pesos)
+            else:
+                hoja7.set_column(i, i, 18)
+
+        # --- Hoja: Resumen_Recaudo ---
+        df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow=1, startcol=1, index=False)
+        df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow=1, startcol=7, index=False)
+        df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow=1, startcol=10, index=False)
+        df5.to_excel(writer, sheet_name='Resumen_Recaudo', startrow=1, startcol=16, index=False)
+        hoja_recaudo = writer.sheets['Resumen_Recaudo']
+        hoja_recaudo.set_column(1, 20, 18)
+
+        # --- Hoja: Recaudo_Acumulado ---
+        df6.to_excel(writer, sheet_name='Recaudo_Acumulado', startrow=0, startcol=0, index=False)
+        hoja6 = writer.sheets['Recaudo_Acumulado']
+        for i, col in enumerate(df6.columns):
+            if "VALOR" in col or "DÉBITO" in col:
+                hoja6.set_column(i, i, 18, formato_pesos)
+            else:
+                hoja6.set_column(i, i, 18)
 
     output.seek(0)
     return output
-
 """
 def generar_xlsx(df1, df2, df3, df4, df5, df6, df7):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df1.to_excel(writer, sheet_name='Datos_Cruzados Efecty', index=False)
+
+        df1.to_excel(writer, sheet_name='Datos_Cruzados Efecty', index=False, columnas_pesos=["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"])
         df7.to_excel(writer, sheet_name='Datos_Cruzados Siigo', index=False)
         df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
         df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=7, index=False)
