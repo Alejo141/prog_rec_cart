@@ -266,6 +266,9 @@ if opcion == "Recaudo":
                 #Resultado o diferencias
                 no_en_sum_val_movil = solo_df2[solo_df2['VALOR MOVILIZADO'].isna()]
                 resultado_2 = no_en_sum_val_movil[['IDENTIFICACION', 'DÉBITO']]
+
+                df_resultado_2 = resultado_2.copy()
+                df_resultado_2['DÉBITO'] = df_resultado_2['DÉBITO'].apply(formato_pesos)
                 st.dataframe(resultado_2)
 
 ###############################################################################################################################################
