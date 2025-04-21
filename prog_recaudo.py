@@ -106,16 +106,16 @@ if opcion == "Recaudo":
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
         #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
-        st.write("Base inicial Siigo")
-        st.dataframe(df_siigo)
+        #st.write("Base inicial Siigo")
+        #st.dataframe(df_siigo)
 
+        #Formatear los datos a STR
         df_siigo['IDENTIFICACION'] = df_siigo['IDENTIFICACION'].astype(str).str.strip()
         df_provision['CC'] = df_provision['CC'].astype(str).str.strip()
 
-        st.write("Base Siigo con NUI")
+        # Cruce entre Siigo y Usuarios para traer NUI
         df_siigo_nui = df_siigo.merge(df_provision[['CC', 'NUI']], left_on="IDENTIFICACION", right_on="CC", how="inner").drop(columns=["CC"])
-        st.dataframe(df_siigo_nui)
-
+        
         if df1 == df2:
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
 
@@ -163,7 +163,11 @@ if opcion == "Recaudo":
                 df_total['MES'] = df_total['FECHA'].dt.strftime('%B').str.upper().map(meses_es)
 
                 st.success("✅ Cruce total correcto.")
+                st.write("Base Efecty")
                 st.dataframe(df_total)
+                st.write("Base Siigo")
+                st.dataframe(df_siigo_nui)
+
 
 ################################################################################################################################################
 
@@ -289,7 +293,7 @@ if opcion == "Recaudo":
 
 
                 # Descargar resultado con dos hojas
-                xlsx = generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2, df_unido, df_siigo)
+                xlsx = generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2, df_unido, df_siigo_nui)
                 st.download_button(
                     label="📥 Descargar Excel",
                     data=xlsx,
