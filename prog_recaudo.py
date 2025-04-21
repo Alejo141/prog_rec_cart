@@ -110,7 +110,7 @@ if opcion == "Recaudo":
         st.dataframe(df_siigo)
 
         st.write("Base Siigo con NUI")
-        df_siigo_nui = df_siigo.merge(df_provision, left_on="IDENTIFICACION", right_on="CC", how="inner")
+        df_siigo_nui = df_siigo.merge(df_provision, left_on="CC", right_on="IDENTIFICACION", how="inner")
         st.dataframe(df_siigo_nui)
 
         if df1 == df2:
