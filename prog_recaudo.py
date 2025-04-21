@@ -202,8 +202,9 @@ if opcion == "Recaudo":
                 st.subheader("Diferencias Efecty vs Siigo", divider="blue")
                 
                 # Convertir claves a string antes del merge
-                sum_val_movil["CC"] = sum_val_movil["CC"].astype(float)
-                sum_siigo["IDENTIFICACION"] = sum_siigo["IDENTIFICACION"].astype(float)
+                #sum_val_movil["CC"] = sum_val_movil["CC"].astype(str)
+                sum_val_movil["CC"] = pd.to_numeric(sum_val_movil["CC"], errors="coerce")
+                #sum_siigo["IDENTIFICACION"] = sum_siigo["IDENTIFICACION"].astype(str)
 
                 # Merge usando columnas diferentes
                 solo_df1 = sum_val_movil.merge(
