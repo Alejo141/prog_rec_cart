@@ -281,7 +281,7 @@ if opcion == "Recaudo":
 
 
                 # Descargar resultado con dos hojas
-                xlsx = generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2, df_unido)
+                xlsx = generar_xlsx(df_total, solo_df1, resultado_1, solo_df2, resultado_2, df_unido, df_siigo)
                 st.download_button(
                     label="📥 Descargar Excel",
                     data=xlsx,
