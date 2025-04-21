@@ -16,10 +16,11 @@ st.title("📊 Captura de Datos")
 opcion = st.sidebar.selectbox("Selecciona una opción:", ["Inicio", "Recaudo", "Cartera"])
 
 # ------------------- FUNCIONES GENERALES -------------------
-def generar_xlsx(df1, df2, df3, df4, df5, df6):
+def generar_xlsx(df1, df2, df3, df4, df5, df6, df7):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df1.to_excel(writer, sheet_name='Datos_Cruzados', index=False)
+        df1.to_excel(writer, sheet_name='Datos_Cruzados Efecty', index=False)
+        df7.to_excel(writer, sheet_name='Datos_Cruzados Siigo', index=False)
         df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
         df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=7, index=False)
         df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=10, index=False)
@@ -154,6 +155,7 @@ if opcion == "Recaudo":
 
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
+                st.dataframe(df_siigo)
 
 ################################################################################################################################################
 
