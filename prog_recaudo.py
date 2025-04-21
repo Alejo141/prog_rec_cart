@@ -173,7 +173,7 @@ if opcion == "Recaudo":
 
                 col1, col2 = st.columns(2)
 
-                df_total["VALOR MOVILIZADO"] = df_total["VALOR MOVILIZADO"].astype(float).str.format('${:,.2f}')
+                df_total["VALOR MOVILIZADO"] = df_total["VALOR MOVILIZADO"].astype(float).apply(lambda x: f"${x:,.2f}")
 
                 # Estandarizar nombres de columnas (en mayúsculas y sin espacios)
                 df_total.columns = df_total.columns.str.upper().str.strip()
