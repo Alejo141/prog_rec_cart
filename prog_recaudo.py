@@ -98,14 +98,20 @@ if opcion == "Recaudo":
 
         df1, df2, df3, df4, df5 = len(df_liqui), len(df_ordenes), len(df_provision), len(df_siigo), len(df_acumulado)
 
-        #st.write("Base inicial Acumulada")
+        
         #st.dataframe(df_acumulado)
 
+        # Se separa numero de factura y cedula
         df_siigo['DESCRIPCIÓN'] = df_siigo['DESCRIPCIÓN'].str.replace(r'-\s+', '-', regex=True)
         df_siigo[['FACTURA', 'IDENTIFICACION']] = df_siigo['DESCRIPCIÓN'].str.extract(r'^FV-\d+-(\d+)\s+(\d+)')
         #st.dataframe(df_siigo[['FACTURA', 'IDENTIFICACION']])
 
-        #st.dataframe(df_siigo)
+        st.write("Base inicial Siigo")
+        st.dataframe(df_siigo)
+
+        st.write("Base Siigo con NUI")
+        df_siigo_nui = df_siigo.merge(df_provision, left_on="IDENTIFICACION", right_on="CC", how="inner")
+        st.dataframe(df_siigo_nui)
 
         if df1 == df2:
             df_merged = df_liqui.merge(df_ordenes, left_on="DOCUMENTO", right_on="NUMERO_ORDEN", how="inner")
@@ -155,7 +161,6 @@ if opcion == "Recaudo":
 
                 st.success("✅ Cruce total correcto.")
                 st.dataframe(df_total)
-                st.dataframe(df_siigo)
 
 ################################################################################################################################################
 
