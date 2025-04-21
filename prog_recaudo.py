@@ -231,7 +231,8 @@ if opcion == "Recaudo":
                 df_solo_df1_fmt["DÉBITO"] = df_solo_df1_fmt["DÉBITO"].apply(formato_pesos)
                 df_solo_df1_fmt["DIFERENCIA_EFECTY_SIIGO"] = df_solo_df1_fmt["DIFERENCIA_EFECTY_SIIGO"].apply(formato_pesos)
 
-                st.dataframe(df_solo_df1_fmt)           
+                st.dataframe(df_solo_df1_fmt)
+                st.dataframe(solo_df1)     
 
                 # Filtrar los que no están en sum_siigo
                 no_en_sum_siigo = solo_df1[solo_df1["DÉBITO"].isna()]
