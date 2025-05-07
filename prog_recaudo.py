@@ -220,6 +220,7 @@ if opcion == "Recaudo":
 
                 st.success("✅ Cruce total correcto.")
                 st.write("Base Efecty")
+                st.dataframe(df_liqui)
                 st.dataframe(df_total)
                 st.write("Base Siigo")
                 st.dataframe(df_siigo_nui)
