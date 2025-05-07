@@ -222,6 +222,7 @@ if opcion == "Recaudo":
                 st.write("Base Efecty")
                 st.dataframe(df_liqui)
                 st.dataframe(df_total)
+                st.dataframe(df_merged)
                 st.write("Base Siigo")
                 st.dataframe(df_siigo_nui)
 
