@@ -62,21 +62,6 @@ def generar_xlsx(df1, df2, df3, df4, df5, df6, df7):
 
     output.seek(0)
     return output
-"""
-def generar_xlsx(df1, df2, df3, df4, df5, df6, df7):
-    output = BytesIO()
-    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-
-        df1.to_excel(writer, sheet_name='Datos_Cruzados Efecty', index=False, columnas_pesos=["VALOR MOVILIZADO", "VALOR COMISIÓN", "IVA", "TOTAL LIQUIDACIÓN"])
-        df7.to_excel(writer, sheet_name='Datos_Cruzados Siigo', index=False)
-        df2.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=1, index=False)
-        df3.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=7, index=False)
-        df4.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=10, index=False)
-        df5.to_excel(writer, sheet_name='Resumen_Recaudo', startrow= 1, startcol=16, index=False)
-        df6.to_excel(writer, sheet_name='Recaudo_Acumulado', startrow= 0, startcol=0, index=False)
-    output.seek(0)
-    return output
-"""
 
 def generar_csv(df):
     output = BytesIO()
